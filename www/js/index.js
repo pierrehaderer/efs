@@ -8,8 +8,6 @@ var app = {
     initialize: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
         document.addEventListener('keydown', this.onDeviceReady, false);
-        //document.addEventListener('click', this.updateThenDraw, false);
-        //document.addEventListener('touchstart', this.updateThenDraw, false);
     },
 
     // deviceready Event Handler
@@ -17,7 +15,12 @@ var app = {
         canvas.style.visibility = "visible";
         canvas.setAttribute("width", document.body.clientWidth);
         canvas.setAttribute("height", document.body.clientHeight);
-        setInterval(app.updateThenDraw, 40)
+        ctx.fillText("Started", 2, 12);
+        var Entity = require('./entity/entity')
+        var firstEntity = new Entity(50, 100, "firstEntity");
+        var entityManager = require('./entity/entityManager');
+        entityManager.add(firstEntity);
+        setInterval(app.updateThenDraw, 40);
     },
     
     updateThenDraw: function() {
@@ -27,10 +30,14 @@ var app = {
     
     update: function() {
         this.position += 10;
+        var entityManager = require('./entity/entityManager');
+        entityManager.update();
     },
 
     draw: function() {
-        var text = document.body.clientWidth.toString() + '-' + document.body.clientHeight.toString();
+        var text = "Hello";
         ctx.fillText(text, this.position, this.position);
+        var entityManager = require('./entity/entityManager');
+        entityManager.draw();
     }
 };
