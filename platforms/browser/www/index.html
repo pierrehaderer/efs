@@ -25,7 +25,16 @@
     <canvas id="ctx" width="0" height="0" style="visibility: hidden; border:0px solid #000000;"></canvas>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
-    <script type="text/javascript">app.initialize();</script>
+    <script type="text/javascript" src="js/img/Images.js"></script>
+    <script type="text/javascript" src="js/map/Maps.js"></script>
+    <script type="text/javascript" src="js/entity/Entity.js"></script>
+    <script type="text/javascript" src="js/entity/Entities.js"></script>
+    <script type="text/javascript">
+        var canvas = document.getElementById("ctx");
+        var ctx = canvas.getContext("2d");
+        var app = new App();
+        app.start();
+    </script>
 </body>
 
 </html>

@@ -1,36 +1,43 @@
-var canvas = document.getElementById("ctx");
-var ctx = canvas.getContext("2d");
-
-var app = {
-    position: 0,
+function App() {
+    this.positionForTest = 0;
+    this.entities = new Entities();
+    this.maps = new Maps();
+    this.images = new Images();
     
     // Application Constructor
-    initialize: function() {
+    this.start = function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
         document.addEventListener('keydown', this.onDeviceReady, false);
-        //document.addEventListener('click', this.updateThenDraw, false);
-        //document.addEventListener('touchstart', this.updateThenDraw, false);
-    },
+    };
 
     // deviceready Event Handler
-    onDeviceReady: function() {
-        canvas.style.visibility = "visible";
+    this.onDeviceReady = function() {
         canvas.setAttribute("width", document.body.clientWidth);
         canvas.setAttribute("height", document.body.clientHeight);
-        setInterval(app.updateThenDraw, 40)
-    },
+        canvas.style.visibility = "visible";
+        app.images.initialize();
+        ctx.fillText("Started", 2, 12);
+        var firstEntity = new Entity(50, 100, "firstEntity");
+        app.entities.add(firstEntity);
+        setInterval(app.updateThenDraw, 40);
+    };
     
-    updateThenDraw: function() {
+    this.updateThenDraw = function() {
         app.update();
         app.draw();
-    },
+    };
     
-    update: function() {
-        this.position += 10;
-    },
+    this.update = function() {
+        app.maps.update();
+        this.positionForTest += 10;
+        app.entities.update();
+    };
 
-    draw: function() {
-        var text = document.body.clientWidth.toString() + '-' + document.body.clientHeight.toString();
-        ctx.fillText(text, this.position, this.position);
-    }
+    this.draw = function() {
+        ctx.clearRect(0, 0, ctx.width, ctx.height);
+        app.maps.draw();
+        var text = "Text to test";
+        ctx.fillText(text, this.positionForTest, this.positionForTest);
+        app.entities.draw();
+    };
 };
