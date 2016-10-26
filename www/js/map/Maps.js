@@ -1,3 +1,8 @@
+var caracEol = "\n";
+var caracEntrance = "e";
+var caracFree = "o";
+var caracBlocked = "x";
+
 function Maps() {
     
     this.x = 0;
@@ -6,21 +11,21 @@ function Maps() {
     this.currentMap = "";
     
     this.initialize = function() {
+        this.mapList.add("map2", new MapObj("map2", map2)); // From map2.js
         this.currentMap = "map2";
-        
     };
     
     this.update = function() {
     };
     
     this.draw = function() {
-        ctx.drawImage(app.images.get(this.currentMap), this.x, this.y);
+        ctx.drawImage(this.mapList(this.currentMap).image, this.x, this.y);
     };
     
     this.updatePosition = function(x, y) {
         var newX = this.x + x;
         var canvasWidth = canvas.getAttribute("width");
-        var mapWidth = app.images.get(this.currentMap).width;
+        var mapWidth = this.mapList(this.currentMap).width;
         if (newX < canvasWidth - mapWidth) {
             this.x = canvasWidth - mapWidth;
         } else if (newX > 0) {
@@ -31,7 +36,7 @@ function Maps() {
 
         var newY = this.y + y;
         var canvasHeight = canvas.getAttribute("height");
-        var mapHeight = app.images.get(this.currentMap).height;
+        var mapHeight = this.mapList(this.currentMap).height;
         if (newY < canvasHeight - mapHeight) {
             this.y = canvasHeight - mapHeight;
         } else if (newY > 0) {
@@ -42,18 +47,4 @@ function Maps() {
         //console.log("Map position : (" + this.x + ", "  + this.y + ").");
     }
 
-    this.addMap = function (name, content) {
-        var myMap = [];
-        var myLine = [];
-        for (var i = 1; i < content.size; i++) {            
-            
-            if (content.get(i) == "\n") {
-                myMap.push(myLine);
-                myLine = [];
-            } else {
-                myLine.push(content.get(i));
-            }
-        }
-        this.mapList.add(name, myMap);
-    }
 }

@@ -1,15 +1,12 @@
-function Entity(x, y, name) {
-    console.log("Creation of Entity(" + x + ", " + y + ", " + name + ")");
-    this.x = x;
-    this.y = y;
+function Entity(tile, name) {
+    console.log("Creation of Entity(" + tile.toString() + ", " + name + ")");
+    this.tile = tile;
     this.name = name;
 
     this.update = function() {
-        this.x++;
-        this.y--;
     };
 
     this.draw = function() {
-        ctx.fillText(this.name, this.x, this.y)
+        ctx.fillText(this.name, this.tile.getX(), this.tile.getY());
     };
 }
