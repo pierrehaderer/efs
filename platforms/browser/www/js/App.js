@@ -12,15 +12,10 @@ function App() {
 
     // deviceready Event Handler
     this.onDeviceReady = function() {
-        // Display whole screen canvas
-        canvas.setAttribute("width", document.body.clientWidth);
-        canvas.setAttribute("height", document.body.clientHeight);
-        canvas.style.visibility = "visible";
-
         // Initialize managers
-        app.entities.initialize();
-        app.maps.initialize();
         app.images.initialize();
+        app.maps.initialize();
+        app.entities.initialize();
         app.touches.initialize();
         
         // Start the main loop
