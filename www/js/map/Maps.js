@@ -1,19 +1,16 @@
 function Maps() {
     
-    this.x = 0;
-    this.y = 0;
     this.mapList = new Map();
     this.currentMap;
     
     this.initialize = function() {
-
         // Initialize map pool
         this.mapList.set("map2", new MapObj("map2", map2)); // From map2.js
         this.currentMap = this.mapList.get("map2");
 
         // Size canvas according to min of map or screen
-        canvas.setAttribute("width", Math.min(document.body.clientWidth, this.currentMap.width));
-        canvas.setAttribute("height", Math.min(document.body.clientHeight, this.currentMap.height));
+        canvas.setAttribute("width", Math.min(document.body.clientWidth, this.currentMap.image.width));
+        canvas.setAttribute("height", Math.min(document.body.clientHeight, this.currentMap.image.height));
         canvas.style.visibility = "visible";
     };
     
@@ -21,48 +18,42 @@ function Maps() {
     };
     
     this.draw = function() {
-        ctx.drawImage(this.mapList.get(this.currentMap).image, this.x, this.y);
+        ctx.drawImage(this.currentMap.image, this.currentMap.x, this.currentMap.y);
     };
-        
+
     /**
      * Update the position of the map after a delta of (x, y).
      */
     this.updatePosition = function(x, y) {
-        var newX = this.x + x;
+        var newX = this.currentMap.x + x;
         var canvasWidth = canvas.getAttribute("width");
-        var mapWidth = this.currentMap.width;
+        var mapWidth = this.currentMap.image.width;
         if (newX < canvasWidth - mapWidth) {
-            this.x = canvasWidth - mapWidth;
+            this.currentMap.x = canvasWidth - mapWidth;
         } else if (newX > 0) {
-            this.x = 0;
+            this.currentMap.x = 0;
         } else {
-            this.x = newX;
+            this.currentMap.x = newX;
         }
 
-        var newY = this.y + y;
+        var newY = this.currentMap.y + y;
         var canvasHeight = canvas.getAttribute("height");
-        var mapHeight = this.currentMap.height;
+        var mapHeight = this.currentMap.image.height;
         if (newY < canvasHeight - mapHeight) {
-            this.y = canvasHeight - mapHeight;
+            this.currentMap.y = canvasHeight - mapHeight;
         } else if (newY > 0) {
-            this.y = 0;
+            this.currentMap.y = 0;
         } else {
-            this.y = newY;
+            this.currentMap.y = newY;
         }
-        //console.log("Map position : (" + this.x + ", "  + this.y + ").");
+        //console.log("Map position : (" + this.currentMap.x + ", "  + this.currentMap.y + ").");
     };
 
     /**
-     * Obtain a random entrance of the current map.
+     * Obtain an entrance of the current map.
      */
     this.getEntrance = function() {
-        return app.utils.pickRandom(this.currentMap.entranceList);
+        return this.currentMap.getRandomEntrance();
     };
-    
-    /**
-     *
-     */
-    this.getAvailableNextTiles = function(tile) {
-        var nextTile = this.currentMap.content[tile.x][tile.y-1];
-    }
+
 }

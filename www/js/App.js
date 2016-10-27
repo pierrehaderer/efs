@@ -1,4 +1,5 @@
 function App() {
+    this.running = false;
     this.entities = new Entities();
     this.maps = new Maps();
     this.images = new Images();
@@ -13,14 +14,18 @@ function App() {
 
     // deviceready Event Handler
     this.onDeviceReady = function() {
-        // Initialize managers
-        app.images.initialize();
-        app.maps.initialize();
-        app.entities.initialize();
-        app.touches.initialize();
-        
-        // Start the main loop
-        setInterval(app.updateThenDraw, 40);
+        if (!app.running) {
+            app.running = true;
+            // Initialize managers
+            app.images.initialize();
+            app.maps.initialize();
+            app.entities.initialize();
+            app.touches.initialize();
+
+            // Start the main loop
+            console.log("Starting app main loop.");
+            setInterval(app.updateThenDraw, 40);
+        }
     };
     
     this.updateThenDraw = function() {

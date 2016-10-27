@@ -6,7 +6,7 @@ function Entities() {
 
     this.update = function() {
         // Randomly generate an entity
-        if (Math.random() < 0.005) { // Every 8 seconds en moyenne 
+        if (Math.random() < 0.005 && this.entityList.length < 5) { // Every 8 seconds en moyenne 
             var name = "entity" + this.entityList.length.toString();
             var entrance = app.maps.getEntrance();
             var myEntity = new Entity(name, entrance);
