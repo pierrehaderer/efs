@@ -24,10 +24,11 @@ function MapObj(name, content) {
             line++;
             column = 0;
         } else {
+            var tile = new Tile(column, line, currentChar);
             if (currentChar == global_charEntrance) {
-                this.entranceList.push(new Tile(column, line));
+                this.entranceList.push(tile);
             }
-            myLine.push(currentChar);
+            myLine.push(tile);
             column++;
         }
     }    

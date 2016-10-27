@@ -4,6 +4,13 @@ function Entity(name, tile) {
     this.tile = tile;
 
     this.update = function() {
+        // Randomly move an entity
+        if (Math.random() < 0.02) { // Every 2 seconds en moyenne 
+            vat nextTiles = app.maps.getAvailableNextTiles(this.tile);
+            if (nextTiles.length > 0) {
+                this.tile = app.utils.pickRandom(nextTiles);
+            }
+        }
     };
 
     this.draw = function() {

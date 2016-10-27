@@ -3,6 +3,7 @@ function App() {
     this.maps = new Maps();
     this.images = new Images();
     this.touches = new Touches();
+    this.utils = new Utils();
     
     // Application Constructor
     this.start = function() {
