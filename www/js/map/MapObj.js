@@ -61,7 +61,7 @@ function MapObj(name, stringContent) {
             if (tile.y > 0 && this.content[tile.x][tile.y-1].char == global_charFree) {
                 nextTiles.push(this.content[tile.x][tile.y-1]);
             }
-            if (tile.y < (this.length - 1) && this.content[tile.x][tile.y+1].char == global_charFree) {
+            if (tile.y < (this.height - 1) && this.content[tile.x][tile.y+1].char == global_charFree) {
                 nextTiles.push(this.content[tile.x][tile.y+1]);
             }
             tile.setNextTiles(nextTiles);
@@ -72,6 +72,9 @@ function MapObj(name, stringContent) {
     /*  End of constructor                                                 */
     /* ################################################################### */    
     
+    this.draw = function() {
+        ctx.drawImage(this.image, this.x, this.y);
+    }
     /**
      * Obtain a random entrance of the current map.
      */

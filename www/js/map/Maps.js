@@ -18,7 +18,7 @@ function Maps() {
     };
     
     this.draw = function() {
-        ctx.drawImage(this.currentMap.image, this.currentMap.x, this.currentMap.y);
+        this.currentMap.draw();
     };
 
     /**

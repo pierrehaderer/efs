@@ -4,6 +4,7 @@ function App() {
     this.maps = new Maps();
     this.images = new Images();
     this.touches = new Touches();
+    this.userInterfaces = new UserInterfaces();
     this.utils = new Utils();
     
     // Application Constructor
@@ -21,6 +22,7 @@ function App() {
             app.maps.initialize();
             app.entities.initialize();
             app.touches.initialize();
+            app.userInterfaces.initialize();
 
             // Start the main loop
             console.log("Starting app main loop.");
@@ -36,11 +38,13 @@ function App() {
     this.update = function() {
         app.maps.update();
         app.entities.update();
+        app.userInterfaces.update();
     };
 
     this.draw = function() {
         ctx.clearRect(0, 0, ctx.width, ctx.height);
         app.maps.draw();
         app.entities.draw();
+        app.userInterfaces.draw();
     };
 };

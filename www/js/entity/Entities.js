@@ -9,7 +9,7 @@ function Entities() {
         if (Math.random() < 0.005 && this.entityList.length < 5) { // Every 8 seconds en moyenne 
             var name = "entity" + this.entityList.length.toString();
             var entrance = app.maps.getEntrance();
-            var myEntity = new Entity(name, entrance);
+            var myEntity = new Entity(name, "client", entrance);
             this.add(myEntity);
         }
         
