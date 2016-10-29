@@ -18,30 +18,27 @@
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
 
     <link rel="stylesheet" type="text/css" href="css/index.css" />
-    <title>EFS</title>
+    <title>test-EFS</title>
 </head>
 
 <body>
     <canvas id="ctx" width="0" height="0" style="visibility: hidden; border:0px solid #000000;"></canvas>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/lib/underscore-1.8.3.js"></script>
-    <script type="text/javascript" src="js/App.js"></script>
-    <script type="text/javascript" src="js/entity/Entity.js"></script>
-    <script type="text/javascript" src="js/entity/Entities.js"></script>
-    <script type="text/javascript" src="js/img/Images.js"></script>
-    <script type="text/javascript" src="js/map/Maps.js"></script>
-    <script type="text/javascript" src="js/map/MapObj.js"></script>
-    <script type="text/javascript" src="js/map/Tile.js"></script>
-    <script type="text/javascript" src="js/map/map2.js"></script>
-    <script type="text/javascript" src="js/touch/Touches.js"></script>
-    <script type="text/javascript" src="js/touch/UIElement.js"></script>
-    <script type="text/javascript" src="js/touch/UserInterfaces.js" ></script>
-    <script type="text/javascript" src="js/util/Utils.js"></script>
     <script type="text/javascript">
         var canvas = document.getElementById("ctx");
         var ctx = canvas.getContext("2d");
-        var app = new App();
-        app.start();
+
+        var f = function(element, index, list) {
+            ctx.fillText(element, index*20 + 15);
+        }
+        
+        var arr = [];
+        ar.push("1");
+        ar.push("2");
+        ar.push("3");
+        _.each(arr);
+        
     </script>
 </body>
 
