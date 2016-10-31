@@ -22,7 +22,7 @@
 </head>
 
 <body>
-    <canvas id="ctx" width="0" height="0" style="visibility: hidden; border:0px solid #000000;"></canvas>
+    <canvas id="ctx" width="200" height="200" style="visibility: visible; border:1px solid #000000;"></canvas>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/lib/underscore-1.8.3.js"></script>
     <script type="text/javascript">
@@ -30,14 +30,30 @@
         var ctx = canvas.getContext("2d");
 
         var f = function(element, index, list) {
-            ctx.fillText(element, index*20 + 15);
+            console.log(element);
         }
         
         var arr = [];
-        ar.push("1");
-        ar.push("2");
-        ar.push("3");
-        _.each(arr);
+        arr.push("1");
+        arr.push("2");
+        arr.push("3");
+        _.each(arr, f);
+        
+        
+        var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
+        var m1 = new Map();
+        m1.set("name", 'moe');
+        m1.set("age", 40);
+        var m2 = new Map();
+        m2.set("name", 'larry');
+        m2.set("age", 50);
+        var m3 = new Map();
+        m3.set("name", 'curly');
+        m3.set("age", 60);
+        var arrayOfMap = [m1, m2, m3];
+        console.log(stooges);
+        console.log(stooges[1].name);
+        console.log(arrayOfMap);
         
     </script>
 </body>

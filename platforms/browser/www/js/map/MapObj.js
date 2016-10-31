@@ -1,10 +1,4 @@
-var global_charEol = "|";
-var global_charEntrance = "e";
-var global_charFree = "o";
-var global_charBlocked = "x";
-
 function MapObj(name, stringContent) {
-
     this.name;
     this.image;
     this.width = 0;
@@ -13,10 +7,6 @@ function MapObj(name, stringContent) {
     this.entranceList = [];
     this.x = 0; // Position of the map in the canvas
     this.y = 0; // Position of the map in the canvas
-
-    /* ################################################################### */
-    /*  Constructor                                                        */
-    /* ################################################################### */
 
     console.log("Create map " + name);
     this.name = name;
@@ -28,7 +18,7 @@ function MapObj(name, stringContent) {
     var column = 0;
     for (var i = 0; i < stringContent.length; i++) {
         var currentChar = stringContent.charAt(i);
-        if (currentChar == global_charEol) {
+        if (currentChar == MapObj.CHAR_EOL) {
             this.width = myLine.length;
             this.content.push(myLine);
             myLine = [];
@@ -36,7 +26,7 @@ function MapObj(name, stringContent) {
             column = 0;
         } else {
             var tile = new Tile(column, line, currentChar);
-            if (currentChar == global_charEntrance) {
+            if (currentChar == MapObj.CHAR_ENTRANCE) {
                 this.entranceList.push(tile);
             }
             myLine.push(tile);
@@ -44,7 +34,7 @@ function MapObj(name, stringContent) {
         }
     }
     this.height = this.content.length;
-    this.content = app.utils.revertMatrix(this.content); // Revert content to use content[x][y] instead of content[y][x].
+    this.content = Utils.revertMatrix(this.content); // Revert content to use content[x][y] instead of content[y][x].
 
     // Pre calculate the nextTiles for all Tiles.
     for (var x = 0; x < this.width; x++) {
@@ -52,34 +42,38 @@ function MapObj(name, stringContent) {
             var tile = this.content[x][y];
             //console.log(tile.toString());
             var nextTiles = [];
-            if (tile.x > 0 && this.content[tile.x-1][tile.y].char == global_charFree) {
+            if (tile.x > 0 && this.content[tile.x-1][tile.y].char == MapObj.CHAR_FREE) {
                 nextTiles.push(this.content[tile.x-1][tile.y]);
             }
-            if (tile.x < (this.width - 1) && this.content[tile.x+1][tile.y].char == global_charFree) {
+            if (tile.x < (this.width - 1) && this.content[tile.x+1][tile.y].char == MapObj.CHAR_FREE) {
                 nextTiles.push(this.content[tile.x+1][tile.y]);
             }
-            if (tile.y > 0 && this.content[tile.x][tile.y-1].char == global_charFree) {
+            if (tile.y > 0 && this.content[tile.x][tile.y-1].char == MapObj.CHAR_FREE) {
                 nextTiles.push(this.content[tile.x][tile.y-1]);
             }
-            if (tile.y < (this.height - 1) && this.content[tile.x][tile.y+1].char == global_charFree) {
+            if (tile.y < (this.height - 1) && this.content[tile.x][tile.y+1].char == MapObj.CHAR_FREE) {
                 nextTiles.push(this.content[tile.x][tile.y+1]);
             }
             tile.setNextTiles(nextTiles);
         }
     }
-
-    /* ################################################################### */
-    /*  End of constructor                                                 */
-    /* ################################################################### */    
-    
-    this.draw = function() {
-        ctx.drawImage(this.image, this.x, this.y);
-    }
-    /**
-     * Obtain a random entrance of the current map.
-     */
-    this.getRandomEntrance = function() {
-        return app.utils.pickRandom(this.entranceList);
-    };
-
 }
+
+MapObj.CHAR_EOL = "|";
+MapObj.CHAR_ENTRANCE = "e";
+MapObj.CHAR_FREE = "o";
+MapObj.CHAR_FORBIDDEN = "x";
+
+/**
+ * Draw the map
+ */
+MapObj.prototype.draw = function() {
+    ctx.drawImage(this.image, this.x, this.y);
+}
+
+/**
+ * Obtain a random entrance of the current map.
+ */
+MapObj.prototype.getRandomEntrance = function() {
+    return _.sample(this.entranceList);
+};
