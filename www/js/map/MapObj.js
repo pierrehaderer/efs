@@ -77,3 +77,10 @@ MapObj.prototype.draw = function() {
 MapObj.prototype.getRandomEntrance = function() {
     return _.sample(this.entranceList);
 };
+
+/**
+ * Obtain the tile at the given coordinate
+ */
+MapObj.prototype.getTile = function(x, y) {
+    return this.content[Math.floor(x/Tile.SIZE)][Math.floor(y/Tile.SIZE)];
+};

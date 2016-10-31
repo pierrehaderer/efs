@@ -26,7 +26,7 @@ function App() {
 
             // Start the main loop
             console.log("Starting app main loop.");
-            setInterval(app.updateThenDraw, 40);
+            setInterval(app.updateThenDraw, App.INTERVAL);
         }
     };
     
@@ -38,6 +38,7 @@ function App() {
     this.update = function() {
         app.maps.update();
         app.entities.update();
+        app.touches.update();
         app.userInterfaces.update();
     };
 
@@ -45,6 +46,9 @@ function App() {
         ctx.clearRect(0, 0, ctx.width, ctx.height);
         app.maps.draw();
         app.entities.draw();
+        app.touches.draw();
         app.userInterfaces.draw();
     };
 };
+
+App.INTERVAL = 40;

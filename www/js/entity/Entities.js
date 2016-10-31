@@ -26,13 +26,33 @@ Entities.prototype.draw = function() {
     });
 };
 
+/**
+ * Add an entity to the list
+ */
 Entities.prototype.add = function(entity) {
     //console.log("Adding entity " + entity.name);
     this.entityList.push(entity);
 };
 
+/**
+ * Remove an entity from the list
+ */
 Entities.prototype.remove = function(entity) {
     console.log("Removing entity " + entity.name);
     var entityIndex = entityList.indexOf(entity);
     this.entityList.splice(entityIndex, 1);
+};
+
+/**
+ * Remove an entity from the list
+ */
+Entities.prototype.whoIsOnTile = function(tile) {
+    this.entityList.forEach(function(entity) {
+        if (entity.tile == tile) {
+            console.log("Entity " + entity.name + " was found on " + tile);
+            return entity;
+        }
+    });
+    console.log("No entity was found on " + tile);
+    return null;
 };

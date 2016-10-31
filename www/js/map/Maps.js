@@ -55,3 +55,10 @@ Maps.prototype.updatePosition = function(x, y) {
 Maps.prototype.getEntrance = function() {
     return this.currentMap.getRandomEntrance();
 };
+
+/**
+ * Obtain the tile at the given coordinate
+ */
+Maps.prototype.getTile = function(x, y) {
+    return this.currentMap.getTile(x, y);
+};

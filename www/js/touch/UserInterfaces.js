@@ -20,3 +20,7 @@ UserInterfaces.prototype.draw = function() {
     this.createElementButton.draw();
     this.createRoomButton.draw();
 }
+
+UserInterfaces.prototype.openDetails(selection) {
+    // TODO
+}
