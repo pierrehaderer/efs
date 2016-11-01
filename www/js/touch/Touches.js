@@ -3,24 +3,25 @@ function Touches() {
     this.mouseY = 0;
     
     this.mouseClicked = false;
-    this.tileClicked = null;
-    this.entityClicked = null;
+    this.tileClicked = undefined;
+    this.entityClicked = undefined;
 
-    // Player is considered in state "playerIsSelecting" after the threshold even if he has selected nothing.
+    // Player is considered in state "playerIsSelecting" after a time threshold even if he has selected nothing.
     this.playerIsSelecting = false;
     this.timerSelection = 0;
-    this.selection = null;
 
-    // Player is considered in state "playerIsSliding" after he has moved his finger above a threshold.
+    // Player is considered in state "playerIsSliding" after he has moved his finger above a movement threshold.
     this.playerIsSliding = false;
     this.moveCumulX = 0;
     this.moveCumulY = 0;
-
 }
 
 Touches.THRESHOLD_BEFORE_SLIDING = 20;
-Touches.THRESHOLD_BEFORE_SELECTING = 500;
+Touches.THRESHOLD_BEFORE_SELECTING = 300;
 
+/**
+ * Initilize this
+ */
 Touches.prototype.initialize = function() {
     document.addEventListener("mousemove", this.onmousemove);
     document.addEventListener("mousedown", this.onmousedown);
@@ -32,23 +33,25 @@ Touches.prototype.onmousemove = function(event) {app.touches.mousemove(event);}
 Touches.prototype.onmousedown = function(event) {app.touches.mousedown(event);}
 Touches.prototype.onmouseup   = function(event) {app.touches.mouseup(event);}
 
-Touches.prototype.update() {
+/**
+ * Update this
+ */
+Touches.prototype.update = function() {
     if (this.mouseClicked) {
         if (!this.playerIsSliding && !this.playerIsSelecting) {
             this.timerSelection += App.INTERVAL;
             if (this.timerSelection > Touches.THRESHOLD_BEFORE_SELECTING) {
                 this.playerIsSelecting = true;
-                if (this.entityClicked != null) {
-                    this.selection = this.entityClicked;
-                    app.entities.selectEntity(this.entityClicked, this.tileClicked);
-                    this.selection = this.entityClicked;
-                }
+                app.entities.selectEntity(this.entityClicked);
             }
         }
     }
 }
 
-Touches.prototype.draw() {
+/**
+ * Draw this
+ */
+Touches.prototype.draw = function() {
 }
 
 /**
@@ -67,12 +70,12 @@ Touches.prototype.mousemove = function(event) {
 
     // Handle movements of the mouse. Use a moveCumul to identify that the player is not simply clicking but sliding his finger.
     if (this.mouseClicked) {
-        var moveX = x - this.mouseX;
-        var moveY = y - this.mouseY;
+        var deltaX = x - this.mouseX;
+        var deltaY = y - this.mouseY;
         if (this.playerIsSliding) {
-            this.slide(moveX, moveY);
+            this.slide(deltaX, deltaY);
         } else {
-            this.updateMoveCumul(moveX, moveY);
+            this.updateMoveCumul(deltaX, deltaY);
             if (Math.abs(this.moveCumulX) + Math.abs(this.moveCumulY) > Touches.THRESHOLD_BEFORE_SLIDING) {
                 // User has slided his finger above the threshold => he wants to slide.
                 this.playerIsSliding = true;
@@ -104,27 +107,25 @@ Touches.prototype.mouseup = function(event) {
 
     if (this.playerIsSelecting) {
         if (this.playerIsSliding) {
-            if (this.selection != null) {
-                console.log("Player has moved the selection.");
-                this.selection.updateTile(app.maps.getTile(this.mouseX, this.mouseY));
-            }
+            console.log("Player has moved the entity selected.");
+            app.entities.updateTileOfSelected(app.maps.getTile(this.mouseX, this.mouseY));
         } else {
-            console.log("Player has clicked on something.");
-            app.userInterfaces.openDetails(this.selection);
+            console.log("Player has clicked on " + this.entityClicked);
+            app.userInterfaces.openDetails(this.entityClicked);
         }
     } else {
         // Player has briefly clicked, he wants to select something.
-        console.log("Player has briefly clicked on something.");
+        console.log("Player has briefly clicked on " + this.entityClicked);
         app.userInterfaces.openDetails(this.entityClicked);
     }
     
     this.mouseClicked = false;
-    this.tileClicked = null;
-    this.entityClicked = null;
+    this.tileClicked = undefined;
+    this.entityClicked = undefined;
+    app.entities.unselectEntity();
     
     this.playerIsSelecting = false;
     this.timerSelection = 0;
-    this.selection = null;
 
     this.playerIsSliding = false;
     this.moveCumulX = 0;
@@ -134,22 +135,22 @@ Touches.prototype.mouseup = function(event) {
 /**
  * Update the cumul of movements since screen was touched
  */
-Touches.prototype.updateMoveCumul = function(moveX, moveY) {
-    this.moveCumulX += moveX;
-    this.moveCumulY += moveY;
+Touches.prototype.updateMoveCumul = function(deltaX, deltaY) {
+    this.moveCumulX += deltaX;
+    this.moveCumulY += deltaY;
     //console.log("Move cumul = " + this.moveCumulX.toString() + " " + this.moveCumulY.toString());
 }
 
 /**
  * Executed during a slide
  */
-Touches.prototype.slide = function(moveX, moveY) {
-    if (this.playerIsSelecting && this.selection != null) {
-        // Something selected, the player wants to move something :)
-        this.selection.updatePosition(moveX, moveY);
+Touches.prototype.slide = function(deltaX, deltaY) {
+    if (this.playerIsSelecting) {
+        // An entity is selected, the player slides to move it
+        app.entities.updatePositionOfSelected(deltaX, deltaY);
     } else {
-        // Nothing selected, the player slide to move the map.
-        app.maps.updatePosition(moveX, moveY);
+        // Nothing selected, the player slides to move the map.
+        app.maps.updatePosition(deltaX, deltaY);
     }
 }
 

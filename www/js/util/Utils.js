@@ -12,3 +12,10 @@ Utils.revertMatrix = function(matrix) {
     }
     return revertedMatrix;
 }
+
+/**
+ * Simplest and universal way to check if a variable is defined
+ */
+Utils.isDefined = function(myVar) {
+    return typeof myVar !== "undefined";
+}

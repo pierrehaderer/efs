@@ -7,6 +7,9 @@ function UIElement(name, x, y) {
     this.y = y;
 }
 
+/**
+ * Draw this
+ */
 UIElement.prototype.draw = function() {
     //console.log("drawing button");
     ctx.drawImage(this.image, this.x, this.y);

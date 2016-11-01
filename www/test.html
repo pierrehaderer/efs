@@ -29,6 +29,7 @@
         var canvas = document.getElementById("ctx");
         var ctx = canvas.getContext("2d");
 
+        console.log("####################");
         var f = function(element, index, list) {
             console.log(element);
         }
@@ -39,6 +40,7 @@
         arr.push("3");
         _.each(arr, f);
         
+        console.log("####################");
         
         var stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}];
         var m1 = new Map();
@@ -55,6 +57,53 @@
         console.log(stooges[1].name);
         console.log(arrayOfMap);
         
+        console.log("####################");
+        
+        var f2 = function () {
+            var entityList = ["a","b","c"];
+            entityList.forEach(function(entity) {
+                console.log("checking " + entity);
+                if (entity == "b") {
+                    console.log("Entity " + entity + " found.");
+                    return entity;
+                }
+            });
+            return "d";
+        }
+        console.log("result = " + f2());
+        console.log("####################");
+
+        function C() {
+            this.a = "1";
+            this.b = "2";
+            
+            this.toString = function() {
+                return "C " + this.a + this.b;
+            }
+        }
+        
+        var c = new C();
+        console.log("c = " + c);
+        c = undefined;
+        console.log("c = " + c);
+        if (c == undefined) {
+            console.log("c'est vrai");
+        }
+        console.log("####################");
+        
+        ctx.save();
+        ctx.fillStyle = 'black';
+        ctx.fillRect(0, 0, 150, 40);
+        ctx.fillStyle = 'white';
+        ctx.font = '10px';
+        ctx.fillText("Pierre", 10, 20);
+        ctx.restore();
+
+        console.log("####################");
+        
+        var pierre = "pierreContent";
+        
+    
     </script>
 </body>
 

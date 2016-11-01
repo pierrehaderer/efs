@@ -5,6 +5,7 @@ function App() {
     this.images = new Images();
     this.touches = new Touches();
     this.userInterfaces = new UserInterfaces();
+    this.debugInterfaces = new DebugInterfaces();
     this.utils = new Utils();
     
     // Application Constructor
@@ -23,10 +24,11 @@ function App() {
             app.entities.initialize();
             app.touches.initialize();
             app.userInterfaces.initialize();
+            app.debugInterfaces.initialize();
 
             // Start the main loop
             console.log("Starting app main loop.");
-            setInterval(app.updateThenDraw, 40);
+            setInterval(app.updateThenDraw, App.INTERVAL);
         }
     };
     
@@ -38,13 +40,19 @@ function App() {
     this.update = function() {
         app.maps.update();
         app.entities.update();
+        app.touches.update();
         app.userInterfaces.update();
+        app.debugInterfaces.update();
     };
 
     this.draw = function() {
         ctx.clearRect(0, 0, ctx.width, ctx.height);
         app.maps.draw();
         app.entities.draw();
+        app.touches.draw();
         app.userInterfaces.draw();
+        app.debugInterfaces.draw();
     };
 };
+
+App.INTERVAL = 40;
