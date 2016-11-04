@@ -1,23 +1,26 @@
 function UserInterfaces() {
-    this.background;
-    this.createElementButton;
-    this.createRoomButton;
+    this.menuList = [];
+    this.mainMenu;
 }
 
 /**
  * Initilize this
  */
 UserInterfaces.prototype.initialize = function() {
-    this.background = new UIElement("UI/background", 0, 0);
-    this.createElementButton = new UIElement("UI/createElementButton", 10, 50);
-    this.createRoomButton = new UIElement("UI/createRoomButton", 10, 70);
+    this.mainMenu = new UIMenu(undefined, "mainMenu", "UI/background", 0, 0);
+    this.menuList.push(this.mainMenu);
+    this.mainMenu.addElement("UI/createElementButton", 10, 10);
+    this.mainMenu.addElement("UI/createRoomButton", 10, 40);
 }
 
 /**
  * Update this
  */
 UserInterfaces.prototype.update = function() {
-
+    // Update all menus.
+    this.menuList.forEach(function(menu) {
+        menu.update();
+    });
 }
 
 /**
@@ -25,9 +28,24 @@ UserInterfaces.prototype.update = function() {
  */
 UserInterfaces.prototype.draw = function() {
     //console.log("drawing interface");
-    this.background.draw();
-    this.createElementButton.draw();
-    this.createRoomButton.draw();
+    // Draw all menus.
+    this.menuList.forEach(function(menu) {
+        menu.draw();
+    });
+}
+
+/**
+ * Add a new menu to the screen
+ */
+UserInterfaces.prototype.addMenu = function(parent, name, imageName, x, y) {
+    this.menuList.push(new UIMenu(parent, name, imageName, x, y));
+}
+
+/**
+ * Return the element of the menu corresponding to the coordinate
+ */
+UserInterfaces.prototype.isOverMenu = function(x, y) {
+    _.findReverse(this.menuList, function(menu){ return menu.isOverMenu(); });
 }
 
 /**
@@ -36,4 +54,5 @@ UserInterfaces.prototype.draw = function() {
 UserInterfaces.prototype.openDetails = function(entity) {
     // TODO
     console.log("Opening details of entity " + entity);
+    this.addMenu(this.mainMenu, "entityDetails", "UI/entityDetails", 50, 10));
 }
