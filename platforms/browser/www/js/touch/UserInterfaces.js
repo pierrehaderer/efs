@@ -44,8 +44,14 @@ UserInterfaces.prototype.addMenu = function(parent, name, imageName, x, y) {
 /**
  * Return the element of the menu corresponding to the coordinate
  */
-UserInterfaces.prototype.isOverMenu = function(x, y) {
-    _.findReverse(this.menuList, function(menu){ return menu.isOverMenu(); });
+UserInterfaces.prototype.overAMenuElement = function(x, y) {
+    for (var i = this.menuList.length - 1; i >= 0; i--) {
+        var element = this.menuList[i].overAMenuElement(x, y);
+        if (Utils.isDefined(element)) {
+            return element;
+        }
+    }
+    return undefined;
 }
 
 /**

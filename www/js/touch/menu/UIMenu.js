@@ -31,9 +31,9 @@ UIMenu.prototype.addElement = function(imageName, x, y) {
 /**
  * Return the element of the menu corresponding to the coordinate
  */
-UIMenu.prototype.isOverMenu = function(x, y) {
+UIMenu.prototype.overAMenuElement = function(x, y) {
     if (x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.width) {
-        return _.findReverse(this.elementList, function(element) { return element.isOverElement(x, y); });
+        return this.elementList[_.findLastIndex(this.elementList, function(element) { return element.isOverElement(x, y); })];
     }
     return undefined;
 }
