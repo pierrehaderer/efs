@@ -1,0 +1,21 @@
+{
+  "name": "efs",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Jean jean <jean.haderer@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/pierrehaderer/efs",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "underscore": "^1.8.3"
+  }
+}

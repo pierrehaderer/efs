@@ -1,5 +1,5 @@
 function Images(x, y, name) {
-    this.imageList = new Map();
+    this.imageList = {};
 }
 
 /**
@@ -10,14 +10,14 @@ Images.prototype.initialize = function() {
     this.default = this.createImage("img/default.bmp");
 
     // Maps
-    this.imageList.set("map/map1", this.createImage("img/map/map1.png"));
+    this.imageList["map/map1"] = this.createImage("img/map/map1.png");
     
     // User interface
-    this.imageList.set("UI/background", this.createImage("img/UI/background.png"));
+    this.imageList["UI/background"] = this.createImage("img/UI/background.png");
     
     // Entities
-    this.imageList.set("entity/donor", this.createImage("img/entity/person/donor.png"));
-    this.imageList.set("entity/selected_donor", this.createImage("img/entity/person/selected_donor.png"));
+    this.imageList["entity/donor"] = this.createImage("img/entity/person/donor.png");
+    this.imageList["entity/selected_donor"] = this.createImage("img/entity/person/selected_donor.png");
 }
 
 /**
@@ -34,8 +34,8 @@ Images.prototype.createImage = function(path) {
  * Get the image with the given name.
  */
 Images.prototype.get = function(imageName) {
-    if (this.imageList.has(imageName)) {
-        return this.imageList.get(imageName);
+    if (this.imageList[imageName] != undefined) {
+        return this.imageList[imageName];
     } else {
         console.log("WARN | image '" + imageName + "' not found.");
         return this.default;

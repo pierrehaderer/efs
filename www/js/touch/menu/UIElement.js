@@ -23,3 +23,4 @@ UIElement.prototype.draw = function() {
  */
 UIElement.prototype.isOverElement = function(x, y) {
     return x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.width;
+}
