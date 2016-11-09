@@ -7,16 +7,14 @@ function UserInterfaces() {
  * Initilize this
  */
 UserInterfaces.prototype.initialize = function() {
-    this.mainMenu = new MainMenu("mainMenu", "UI/background", 0, 0);
-    this.mainMenu.addElement("UI/createElementButton", "", 10, 10);
-    this.mainMenu.addElement("UI/createRoomButton", "", 10, 40);
+    this.mainMenu = new MainMenu();
+    this.windowList.addWindow(this.mainMenu);
 }
 
 /**
  * Update this
  */
 UserInterfaces.prototype.update = function() {
-    this.mainMenu.update();
     // Update all windows.
     this.windowList.forEach(function(menu) {
         menu.update();
@@ -27,7 +25,6 @@ UserInterfaces.prototype.update = function() {
  * Draw this
  */
 UserInterfaces.prototype.draw = function() {
-    this.mainMenu.draw();
     //console.log("drawing interface");
     this.windowList.forEach(function(menu) {
         menu.draw();
@@ -35,29 +32,30 @@ UserInterfaces.prototype.draw = function() {
 }
 
 /**
- * Add a new menu to the screen
+ * Add a new window to the screen
  */
-UserInterfaces.prototype.addWindow = function(window) {
-    this.windowList.push(window);
+UserInterfaces.prototype.addWindow = function(myWindow) {
+    this.windowList.push(myWindow);
 }
 
 /**
  * Return the window corresponding to the coordinate, undefined if no window was found
  */
 UserInterfaces.prototype.getSelectedWindow = function(x, y) {
-    if (this.mainMenu.isOverWindow()) {
-        console.log("Found main menu " + this.mainMenu);
-        return this.mainMenu;
+    var windowToReturn = undefined;
+    for (var i = this.windowList.length - 1; i >= 0; i--) {
+        if (this.windowList[i].isOverWindow()) {
+            windowToReturn = this.windowList[i];
+        }
     }
-    var windowToReturn = _.findReverse(this.windowList, function(window){ return window.isOverWindow(); });
     console.log("Found window " + windowToReturn);
-    return windowToReturn;
+    return windowToReturn;    
 }
 
 /**
  * Select the window that was previously clicked
  */
-UserInterfaces.prototype.selectWindow = function(window) {
+UserInterfaces.prototype.selectWindow = function(myWindow) {
     // Nothing for now
 }
 
@@ -71,8 +69,18 @@ UserInterfaces.prototype.openEntityDetails = function(entity) {
 }
 
 /**
+ * Execute the action linked to the element provided
+ */
+UserInterfaces.prototype.executeAction = function(element) {
+    // TODO do more...
+    if (Utils.isDefined(element)) {
+        console.log("Executing action linked to " + element);
+    }
+}
+
+/**
  * Close all the windows but keep the main menu
  */
-UserInterfaces.prototype.closeWindowss = function() {
-    this.windowList.empty();
+UserInterfaces.prototype.closeWindows = function() {
+    this.windowList.splice(1, this.windowList.length);
 }

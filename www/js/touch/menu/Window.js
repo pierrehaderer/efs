@@ -39,5 +39,5 @@ Window.prototype.isOverWindow = function(x, y) {
  * Should only be called after verifying the isOverWindow method. 
  */
 Window.prototype.getSelectedElement = function(x, y) {
-    return _.findReverse(this.elementList, function(element) { return element.isOverElement(x, y); });
+    return this.elementList[_.findLastIndex(this.elementList, function(element) { return element.isOverElement(x, y); })];
 }
