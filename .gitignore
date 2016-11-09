@@ -2,4 +2,7 @@ node_modules
 .npm-debug.log
 tmp
 .grunt
-www/includes
+# we should not take this in the git but we do it is simpler
+# www/includes
+# we should not take this in the git but we do it is simpler
+# platform/browser/www

@@ -12,3 +12,11 @@ npm install grunt-contrib-uglify
 
 pour ajouter une dépendance
 bower install underscore
+
+npm install -g phonegap@latest
+npm update -g
+phonegap build browser
+phonegap serve browser
+
+http://localhost:3000
+

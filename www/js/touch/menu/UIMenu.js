@@ -12,6 +12,12 @@ function UIMenu(parent, name, imageName, x, y) {
 }
 
 /**
+ * Update this
+ */
+UIMenu.prototype.update = function() {
+}
+
+/**
  * Draw this
  */
 UIMenu.prototype.draw = function() {    

@@ -60,5 +60,5 @@ UserInterfaces.prototype.overAMenuElement = function(x, y) {
 UserInterfaces.prototype.openDetails = function(entity) {
     // TODO
     console.log("Opening details of entity " + entity);
-    this.addMenu(this.mainMenu, "entityDetails", "UI/entityDetails", 50, 10));
+    this.addMenu(this.mainMenu, "entityDetails", "UI/entityDetails", 50, 10);
 }
