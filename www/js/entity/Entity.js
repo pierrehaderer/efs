@@ -1,9 +1,12 @@
 function Entity(name, type, tile) {
     console.log("Creation of Entity " + name + " on tile:" + tile);
     this.name = name;
+    this.description = "TODO";
     this.type = type;
     this.image = app.images.get("entity/" + type);
     this.selectedImage = app.images.get("entity/selected_" + type);
+    this.portrait = "TODO";
+    this.competences = "TODO";
     this.tile = tile;
     this.selected = false;
     this.x = tile.x * Tile.SIZE;
