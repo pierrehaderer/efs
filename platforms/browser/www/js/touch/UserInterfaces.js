@@ -16,8 +16,9 @@ UserInterfaces.prototype.initialize = function() {
  */
 UserInterfaces.prototype.update = function() {
     // Update all windows.
-    this.windowList.forEach(function(menu) {
-        menu.update();
+    this.windowList.forEach(function(sseed) {
+        console.log("Update" + sseed);
+        sseed.update();
     });
 }
 
@@ -26,8 +27,8 @@ UserInterfaces.prototype.update = function() {
  */
 UserInterfaces.prototype.draw = function() {
     //console.log("drawing interface");
-    this.windowList.forEach(function(menu) {
-        menu.draw();
+    this.windowList.forEach(function(myWindow) {
+        myWindow.draw();
     });
 }
 

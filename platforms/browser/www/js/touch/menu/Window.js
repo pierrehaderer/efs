@@ -7,7 +7,13 @@ function Window(name, imageName, x, y) {
     this.y = y;
     this.elementList = [];
     // Add the first element witch is the background of this menu
-    this.addElement(this, imageName, 0, 0);
+    this.addElement(imageName, "", 0, 0);
+}
+
+/**
+ * Update this
+ */
+Window.prototype.update = function() {
 }
 
 /**
@@ -40,4 +46,8 @@ Window.prototype.isOverWindow = function(x, y) {
  */
 Window.prototype.getSelectedElement = function(x, y) {
     return this.elementList[_.findLastIndex(this.elementList, function(element) { return element.isOverElement(x, y); })];
+}
+
+Window.prototype.toString = function() {
+    return "Window {name:'" + this.name + "',x:'" + this.x + "',y:'" + this.y + "',width:'" + this.width + "',height:'" + this.height + "'}";
 }

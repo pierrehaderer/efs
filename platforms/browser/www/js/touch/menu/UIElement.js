@@ -1,8 +1,9 @@
-function UIElement(menu, name, text, x, y) {
+function UIElement(menu, imageName, text, x, y) {
+    console.log("Create element " + imageName);
     this.menu = menu;
-    this.name = name;
+    this.imageName = imageName;
     this.text = text;
-    this.image = app.images.get(name);
+    this.image = app.images.get(imageName);
     this.width = this.image.width;
     this.height = this.image.height;
     // x = position in the menu, this.x = position on the canvas
@@ -27,4 +28,8 @@ UIElement.prototype.draw = function() {
  */
 UIElement.prototype.isOverElement = function(x, y) {
     return x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.width;
+}
+
+UIElement.prototype.toString = function() {
+    return "UIElement {name: '" +this.imageName + "'}";
 }
