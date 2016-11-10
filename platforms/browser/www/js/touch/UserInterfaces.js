@@ -8,7 +8,7 @@ function UserInterfaces() {
  */
 UserInterfaces.prototype.initialize = function() {
     this.mainMenu = new MainMenu();
-    this.windowList.addWindow(this.mainMenu);
+    this.addWindow(this.mainMenu);
 }
 
 /**
