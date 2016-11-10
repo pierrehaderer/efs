@@ -18,7 +18,7 @@ UserInterfaces.prototype.update = function() {
     // Update all windows.
     this.windowList.forEach(function(sseed) {
         console.log("Update" + sseed);
-        sseed.update();
+        //sseed.update();
     });
 }
 
