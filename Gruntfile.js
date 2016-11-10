@@ -3,6 +3,10 @@ var grunt = require('grunt');
 grunt.loadNpmTasks('grunt-contrib-jasmine');
 grunt.loadNpmTasks('grunt-include-source');
 grunt.loadNpmTasks('grunt-contrib-watch');
+grunt.loadNpmTasks('grunt-bower');
+grunt.renameTask('bower', 'bowerCopy');
+grunt.loadNpmTasks('grunt-bower-task');
+
 
 grunt.initConfig({
 	pkg: grunt.file.readJSON('package.json'),
@@ -31,8 +35,25 @@ grunt.initConfig({
 		includes: {
 			files: ['www/includes/*', 'www/js/**'],
 			tasks: ['includeSource:server']
+		},
+		bower: {
+			files: ['bower.json'],
+			tasks: ['bower', 'bowerCopy']
+		}
+	},
+	bowerCopy: {
+		dep: {
+			dest: "www/includes"
+		}
+	},
+	bower: {
+		install: {
+			options: {
+				copy: false,
+        		targetDir: './lib'
+			}
 		}
 	}
 });
 
-grunt.registerTask('default', ['includeSource:server', 'jasmine']);
+grunt.registerTask('default', ['bower', 'bowerCopy', 'includeSource:server', 'jasmine']);

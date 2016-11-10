@@ -1,8 +1,9 @@
 node_modules
+bower_components
 .npm-debug.log
 tmp
 .grunt
 # we should not take this in the git but we do it is simpler
-# www/includes
+www/includes
 # we should not take this in the git but we do it is simpler
-# platform/browser/www
+platforms/browser/www
