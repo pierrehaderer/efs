@@ -6,4 +6,6 @@ tmp
 # we should not take this in the git but we do it is simpler
 www/includes
 # we should not take this in the git but we do it is simpler
-platforms/browser/www
+platforms/browser/build/
+platforms/browser/www/
+platforms/browser/cordova/console.log
