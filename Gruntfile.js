@@ -22,7 +22,7 @@ grunt.initConfig({
 	includeSource: {
 		options: {
 			basePath: 'www',
-			baseUrl: '/',
+			baseUrl: ''
 			
 		},
 		server: {
@@ -33,7 +33,7 @@ grunt.initConfig({
 	},
 	watch: {
 		includes: {
-			files: ['www/includes/*', 'www/js/**'],
+			files: ['www/includes/*', 'www/js/**', 'www/index.tpl.html'],
 			tasks: ['includeSource:server']
 		},
 		bower: {
@@ -43,17 +43,17 @@ grunt.initConfig({
 	},
 	bowerCopy: {
 		dep: {
-			dest: "www/includes"
+			dest: 'www/includes'
 		}
 	},
 	bower: {
 		install: {
 			options: {
 				copy: false,
-        		targetDir: './lib'
+                targetDir: './lib'
 			}
 		}
 	}
 });
 
-grunt.registerTask('default', ['bower', 'bowerCopy', 'includeSource:server', 'jasmine']);
+grunt.registerTask('default', ['bower', 'bowerCopy', 'includeSource', 'jasmine']);

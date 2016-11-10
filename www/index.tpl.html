@@ -34,6 +34,11 @@
         var ctx = canvas.getContext("2d");
         var app = new App();
         app.start();
+        
+        
+        if (!window.cordova) {
+            document.dispatchEvent('deviceready');
+        }
     </script>
 </body>
 
