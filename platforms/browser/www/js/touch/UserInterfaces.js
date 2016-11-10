@@ -1,61 +1,52 @@
-define([
-    'require'
-], function(require) {
-    'use strict';
-    var utils = require('js/util/Utils');
+function UserInterfaces() {
+    this.windowList = [];
+    this.mainMenu;
+}
 
-    function UserInterfaces() {
-        this.menuList = [];
-        this.mainMenu;
-    }
+/**
+ * Initilize this
+ */
+UserInterfaces.prototype.initialize = function() {
+    this.mainMenu = new MainMenu();
+    this.addWindow(this.mainMenu);
+}
 
-    /**
-     * Initilize this
-     */
-    UserInterfaces.prototype.initialize = function() {
-        this.mainMenu = new UIMenu(undefined, "mainMenu", "UI/background", 0, 0);
-        this.menuList.push(this.mainMenu);
-        this.mainMenu.addElement("UI/createElementButton", 10, 10);
-        this.mainMenu.addElement("UI/createRoomButton", 10, 40);
-    }
+/**
+ * Update this
+ */
+UserInterfaces.prototype.update = function() {
+    // Update all windows.
+    this.windowList.forEach(function(sseed) {
+        console.log("Update" + sseed);
+        sseed.update();
+    });
+}
 
-    /**
-     * Update this
-     */
-    UserInterfaces.prototype.update = function() {
-        // Update all menus.
-        this.menuList.forEach(function(menu) {
-            menu.update();
-        });
-    }
+/**
+ * Draw this
+ */
+UserInterfaces.prototype.draw = function() {
+    //console.log("drawing interface");
+    this.windowList.forEach(function(myWindow) {
+        myWindow.draw();
+    });
+}
 
-    /**
-     * Draw this
-     */
-    UserInterfaces.prototype.draw = function() {
-        //console.log("drawing interface");
-        // Draw all menus.
-        this.menuList.forEach(function(menu) {
-            menu.draw();
-        });
-    }
+/**
+ * Add a new window to the screen
+ */
+UserInterfaces.prototype.addWindow = function(myWindow) {
+    this.windowList.push(myWindow);
+}
 
-    /**
-     * Add a new menu to the screen
-     */
-    UserInterfaces.prototype.addMenu = function(parent, name, imageName, x, y) {
-        this.menuList.push(new UIMenu(parent, name, imageName, x, y));
-    }
-
-    /**
-     * Return the element of the menu corresponding to the coordinate
-     */
-    UserInterfaces.prototype.overAMenuElement = function(x, y) {
-        for (var i = this.menuList.length - 1; i >= 0; i--) {
-            var element = this.menuList[i].overAMenuElement(x, y);
-            if (Utils.isDefined(element)) {
-                return element;
-            }
+/**
+ * Return the window corresponding to the coordinate, undefined if no window was found
+ */
+UserInterfaces.prototype.getSelectedWindow = function(x, y) {
+    var windowToReturn = undefined;
+    for (var i = this.windowList.length - 1; i >= 0; i--) {
+        if (this.windowList[i].isOverWindow()) {
+            windowToReturn = this.windowList[i];
         }
         return undefined;
     }
@@ -68,6 +59,40 @@ define([
         console.log("Opening details of entity " + entity);
         this.addMenu(this.mainMenu, "entityDetails", "UI/entityDetails", 50, 10);
     }
-    
-});
+    console.log("Found window " + windowToReturn);
+    return windowToReturn;    
+}
+
+/**
+ * Select the window that was previously clicked
+ */
+UserInterfaces.prototype.selectWindow = function(myWindow) {
+    // Nothing for now
+}
+
+/**
+ * Open the details of the entity
+ */
+UserInterfaces.prototype.openEntityDetails = function(entity) {
+    if (Utils.isDefined(entity)) {
+        this.addWindow(new EntityDetailsWindow(entity));
+    }
+}
+
+/**
+ * Execute the action linked to the element provided
+ */
+UserInterfaces.prototype.executeAction = function(element) {
+    // TODO do more...
+    if (Utils.isDefined(element)) {
+        console.log("Executing action linked to " + element);
+    }
+}
+
+/**
+ * Close all the windows but keep the main menu
+ */
+UserInterfaces.prototype.closeWindows = function() {
+    this.windowList.splice(1, this.windowList.length);
+}
 

@@ -5,6 +5,7 @@ function Touches() {
     this.mouseClicked = false;
     this.tileClicked = undefined;
     this.entityClicked = undefined;
+    this.windowClicked = undefined;
 
     // Player is considered in state "playerIsSelecting" after a time threshold even if he has selected nothing.
     this.playerIsSelecting = false;
@@ -14,6 +15,7 @@ function Touches() {
     this.playerIsSliding = false;
     this.moveCumulX = 0;
     this.moveCumulY = 0;
+    
 }
 
 Touches.THRESHOLD_BEFORE_SLIDING = 20;
@@ -42,6 +44,7 @@ Touches.prototype.update = function() {
             this.timerSelection += App.INTERVAL;
             if (this.timerSelection > Touches.THRESHOLD_BEFORE_SELECTING) {
                 this.playerIsSelecting = true;
+                app.userInterfaces.selectWindow(this.windowClicked);
                 app.entities.selectEntity(this.entityClicked);
             }
         }
@@ -95,8 +98,15 @@ Touches.prototype.mousemove = function(event) {
 Touches.prototype.mousedown = function(event) {
     console.log("Mouse has been clicked.");
     this.mouseClicked = true;
-    this.tileClicked = app.maps.getTile(this.mouseX, this.mouseY);
-    this.entityClicked = app.entities.whoIsOnTile(this.tileClicked);
+    this.windowClicked = app.userInterfaces.getSelectedWindow(this.mouseX, this.mouseY);
+    if (Utils.isDefined(this.windowClicked)) {
+        // The player has clicked on a window, find the element of the window
+        this.elementClicked = this.windowClicked.getSelectedElement(this.mouseX, this.mouseY);
+    } else {
+        // Check for an entity only if the player is not clicking on a window.
+        this.tileClicked = app.maps.getTile(this.mouseX, this.mouseY);
+        this.entityClicked = app.entities.whoIsOnTile(this.tileClicked);
+    }
 }
 
 /**
@@ -110,17 +120,23 @@ Touches.prototype.mouseup = function(event) {
             console.log("Player has moved the entity selected.");
             app.entities.updateTileOfSelected(app.maps.getTile(this.mouseX, this.mouseY));
         } else {
+            console.log("Player has clicked on " + this.windowClicked);
+            app.userInterfaces.executeAction(this.elementClicked);
             console.log("Player has clicked on " + this.entityClicked);
-            app.userInterfaces.openDetails(this.entityClicked);
+            app.userInterfaces.openEntityDetails(this.entityClicked);
         }
     } else {
         // Player has briefly clicked, he wants to select something.
+        console.log("Player has briefly clicked on " + this.windowClicked);
+        app.userInterfaces.executeAction(this.elementClicked);
         console.log("Player has briefly clicked on " + this.entityClicked);
-        app.userInterfaces.openDetails(this.entityClicked);
+        app.userInterfaces.openEntityDetails(this.entityClicked);
     }
     
     this.mouseClicked = false;
+    this.windowClicked = undefined;
     this.tileClicked = undefined;
+    this.elementClicked = undefined;
     this.entityClicked = undefined;
     app.entities.unselectEntity();
     
