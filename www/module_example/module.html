@@ -17,37 +17,12 @@
     -->
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
 
-    <link rel="stylesheet" type="text/css" href="css/index.css" />
     <title>EFS</title>
 </head>
 
-<body>
-    <canvas id="ctx" width="0" height="0" style="visibility: hidden; border:0px solid #000000;"></canvas>
-    <script type="text/javascript" src="cordova.js"></script>
-	
-	<!-- include: "type": "js", "files": "includes/**/*.js" -->
-
-	<!-- include: "type": "js", "files": "js/**/*.js" -->
-
-    <script type="text/javascript">
-        requirejs.config({
-          "baseURL": "js",
-          "paths": {
-            "lib": "../includes"
-          }
-        });
-        
-        var canvas = document.getElementById("ctx");
-        var ctx = canvas.getContext("2d");
-        require("App", function(app) {
-            app.start();
-
-
-            if (!window.cordova) {
-                document.dispatchEvent('deviceready');
-            }
-        });
-    </script>
-</body>
+    <body>
+        <script type="text/javascript" src="/cordova.js"></script>
+        <script data-main="/module_example/mymoduleuser.js" src="/includes/require.js"></script>
+    </body>
 
 </html>

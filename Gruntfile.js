@@ -12,7 +12,7 @@ grunt.initConfig({
 	pkg: grunt.file.readJSON('package.json'),
 	jasmine: {
 		pivotal: {
-			src: 'www/js/**/*.js',
+			src: 'www/**/*.js',
 			options: {
 				specs: 'www/test/*Spec.js',
 				helpers: 'www/test/*Helper.js'
