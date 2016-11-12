@@ -1,6 +1,6 @@
 {
   "name": "efs",
-  "version": "0.1",
+  "version": "1.0.1",
   "devDependencies": {
     "grunt": "^1.0.1",
     "grunt-bower": "^0.21.3",

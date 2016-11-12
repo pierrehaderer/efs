@@ -25,9 +25,8 @@
     <canvas id="ctx" width="0" height="0" style="visibility: hidden; border:0px solid #000000;"></canvas>
     <script type="text/javascript" src="cordova.js"></script>
 	
-	<!-- include: "type": "js", "files": "includes/**/*.js" -->
-
-	<!-- include: "type": "js", "files": "js/**/*.js" -->
+    <script src="includes/underscore.js"></script>
+    <script data-main="js/App" src="includes/require.js"></script>
 
     <script type="text/javascript">
         requirejs.config({
@@ -35,17 +34,6 @@
           "paths": {
             "lib": "../includes"
           }
-        });
-        
-        var canvas = document.getElementById("ctx");
-        var ctx = canvas.getContext("2d");
-        require("App", function(app) {
-            app.start();
-
-
-            if (!window.cordova) {
-                document.dispatchEvent('deviceready');
-            }
         });
     </script>
 </body>

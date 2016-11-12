@@ -1,14 +1,12 @@
-define(["touch/UserInterfaces"], function (userInterfaces) {
+define(["canvas/context", "touch/UserInterfaces", "map/Maps", "map/map1", "img/Images", "touch/DebugInterfaces",
+       "touch/Touches", "entity/Entities", "Config"], 
+       function (can, userInterfaces, maps, map1, images, debugInterfaces,
+                 touches, entities, config) {
     var app;
-    
+
     function App() {
         this.running = false;
-        this.entities = new Entities();
-        this.maps = new Maps();
-        this.images = new Images();
-        this.touches = new Touches();
-        this.debugInterfaces = new DebugInterfaces();
-
+        
         // Application Constructor
         this.start = function() {
             document.addEventListener('deviceready', this.onDeviceReady, false);
@@ -20,16 +18,15 @@ define(["touch/UserInterfaces"], function (userInterfaces) {
             if (!app.running) {
                 app.running = true;
                 // Initialize managers
-                app.images.initialize();
-                app.maps.initialize();
-                app.entities.initialize();
-                app.touches.initialize();
+                maps.initialize("map1", map1);
+                entities.initialize();
+                touches.initialize();
                 userInterfaces.initialize();
-                app.debugInterfaces.initialize();
+                debugInterfaces.initialize();
 
                 // Start the main loop
                 console.log("Starting app main loop.");
-                setInterval(app.updateThenDraw, App.INTERVAL);
+                setInterval(app.updateThenDraw, config.INTERVAL);
             }
         };
 
@@ -39,27 +36,23 @@ define(["touch/UserInterfaces"], function (userInterfaces) {
         };
 
         this.update = function() {
-            app.maps.update();
-            app.entities.update();
-            app.touches.update();
+            maps.update();
+            entities.update();
+            touches.update();
             userInterfaces.update();
-            app.debugInterfaces.update();
+            debugInterfaces.update();
         };
 
         this.draw = function() {
-            ctx.clearRect(0, 0, ctx.width, ctx.height);
-            app.maps.draw();
-            app.entities.draw();
-            app.touches.draw();
+            can.ctx.clearRect(0, 0, can.ctx.width, can.ctx.height);
+            maps.draw();
+            entities.draw();
+            touches.draw();
             userInterfaces.draw();
-            app.debugInterfaces.draw();
+            debugInterfaces.draw();
         };
     };
 
-    App.INTERVAL = 40;
-    
-    var canvas = document.getElementById("ctx");
-    var ctx = canvas.getContext("2d");
     var app = new App();
 
     if (!window.cordova) {

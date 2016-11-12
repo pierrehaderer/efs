@@ -1,15 +1,13 @@
-define(["util/Utils"], function (utils) {
+define(["util/Utils", "touch/menu/MainMenu", "touch/menu/EntityDetailsWindow"], function (utils, mainMenu, entityDetailsWindowFactory) {
     function UserInterfaces() {
         this.windowList = [];
-        this.mainMenu;
     }
 
     /**
      * Initilize this
      */
     UserInterfaces.prototype.initialize = function() {
-        this.mainMenu = new MainMenu();
-        this.addWindow(this.mainMenu);
+        this.addWindow(mainMenu);
     }
 
     /**
@@ -66,7 +64,7 @@ define(["util/Utils"], function (utils) {
      */
     UserInterfaces.prototype.openEntityDetails = function(entity) {
         if (utils.isDefined(entity)) {
-            this.addWindow(new EntityDetailsWindow(entity));
+            this.addWindow(entityDetailsWindowFactory.create(entity));
         }
     }
 
