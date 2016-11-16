@@ -1,4 +1,4 @@
-require(["app"], function(app) {
+require(["App"], function(app) {
     if (!window.cordova) {
         app.onDeviceReady();
     } 

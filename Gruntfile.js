@@ -1,5 +1,6 @@
 var grunt = require('grunt');
 
+grunt.loadNpmTasks('grunt-contrib-connect');
 grunt.loadNpmTasks('grunt-contrib-jasmine');
 grunt.loadNpmTasks('grunt-include-source');
 grunt.loadNpmTasks('grunt-contrib-watch');
@@ -25,6 +26,15 @@ grunt.initConfig({
             }
         }
 	},
+    connect: {
+        server: {
+            options: {
+                livereload: true,
+                base: 'www/',
+                port: 8000
+            }
+        }
+    },
 	includeSource: {
 		options: {
 			basePath: 'www',
@@ -62,4 +72,5 @@ grunt.initConfig({
 	}
 });
 
-grunt.registerTask('default', ['bower', 'bowerCopy', 'includeSource', 'jasmine']);
+grunt.registerTask('all', ['bower', 'bowerCopy', 'includeSource', 'jasmine', 'connect:server', 'watch']);
+grunt.registerTask('default', ['all']);
