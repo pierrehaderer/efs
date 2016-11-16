@@ -11,13 +11,19 @@ grunt.loadNpmTasks('grunt-bower-task');
 grunt.initConfig({
 	pkg: grunt.file.readJSON('package.json'),
 	jasmine: {
-		pivotal: {
-			src: 'www/**/*.js',
-			options: {
-				specs: 'www/test/*Spec.js',
-				helpers: 'www/test/*Helper.js'
-			}
-		}
+        test : {
+            src: 'www/js/**/*.js',
+            options: {
+                specs: 'www/test/*Spec.js',
+                helpers: 'www/test/*Helper.js',
+                template: require('grunt-template-jasmine-requirejs'),
+                templateOptions: {
+                    requireConfig: {
+                        baseUrl: 'www/js'
+                    }
+                }
+            }
+        }
 	},
 	includeSource: {
 		options: {
