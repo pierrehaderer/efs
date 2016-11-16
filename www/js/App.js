@@ -54,9 +54,5 @@ define(["canvas/context", "touch/UserInterfaces", "map/Maps", "map/map1", "img/I
     };
 
     var app = new App();
-
-    if (!window.cordova) {
-        app.onDeviceReady();
-    }
-
+    return app;
 });

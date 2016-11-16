@@ -1,3 +1,3 @@
 define([], {
     INTERVAL : 40
-})
+});
