@@ -35,10 +35,6 @@ grunt.initConfig({
         }
     },
     watch: {
-        includes: {
-            files: ['www/includes/*', 'www/js/**', 'www/index.tpl.html'],
-            tasks: ['includeSource:server']
-        },
         bower: {
             files: ['bower.json'],
             tasks: ['bower', 'bowerCopy']
