@@ -1,4 +1,4 @@
-define(["touch/menu/Window"], function(Window) {
+define(["touch/menu/Window"], function (Window) {
     function EntityDetailsWindow(entity) {
         console.log("Opening details of entity " + entity);
         this.base = Window;
@@ -11,10 +11,6 @@ define(["touch/menu/Window"], function(Window) {
     EntityDetailsWindow.prototype = Object.create(Window.prototype, {
 
     });
-    
-    return {
-        create : function(entity) {
-            new EntityDetailsWindow(entity);
-        }
-    };
+
+    return EntityDetailsWindow;
 });

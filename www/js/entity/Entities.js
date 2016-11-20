@@ -1,4 +1,4 @@
-define(["entity/Entity", "util/Utils", "map/Maps"], function(entityFactory, utils, maps) {
+define(["entity/Entity", "util/Utils", "map/Maps"], function (Entity, utils, maps) {
 
     function Entities() {
         this.entityList = [];
@@ -8,23 +8,22 @@ define(["entity/Entity", "util/Utils", "map/Maps"], function(entityFactory, util
     /**
      * Initilize this
      */
-    Entities.prototype.initialize = function() {
-    }
+    Entities.prototype.initialize = function () {}
 
     /**
      * Update this
      */
-    Entities.prototype.update = function() {
+    Entities.prototype.update = function () {
         // Randomly generate an entity
         if (Math.random() < 0.01 && this.entityList.length < 10) { // Every 4 seconds en moyenne 
             var name = "entity" + this.entityList.length.toString();
             var entrance = maps.getEntrance();
-            var myEntity = entityFactory.create(name, "donor", entrance);
+            var myEntity = new Entity(name, "donor", entrance);
             this.add(myEntity);
         }
 
         // Update all entities.
-        this.entityList.forEach(function(entity) {
+        this.entityList.forEach(function (entity) {
             entity.update();
         });
     };
@@ -32,8 +31,8 @@ define(["entity/Entity", "util/Utils", "map/Maps"], function(entityFactory, util
     /**
      * Draw this
      */
-    Entities.prototype.draw = function() {
-        this.entityList.forEach(function(entity) {
+    Entities.prototype.draw = function () {
+        this.entityList.forEach(function (entity) {
             entity.draw();
         });
     };
@@ -41,7 +40,7 @@ define(["entity/Entity", "util/Utils", "map/Maps"], function(entityFactory, util
     /**
      * Add an entity to the list
      */
-    Entities.prototype.add = function(entity) {
+    Entities.prototype.add = function (entity) {
         //console.log("Adding entity " + entity.name);
         this.entityList.push(entity);
     };
@@ -49,7 +48,7 @@ define(["entity/Entity", "util/Utils", "map/Maps"], function(entityFactory, util
     /**
      * Remove an entity from the list
      */
-    Entities.prototype.remove = function(entity) {
+    Entities.prototype.remove = function (entity) {
         console.log("Removing entity " + entity.name);
         var entityIndex = entityList.indexOf(entity);
         this.entityList.splice(entityIndex, 1);
@@ -58,8 +57,10 @@ define(["entity/Entity", "util/Utils", "map/Maps"], function(entityFactory, util
     /**
      * Find an entity on the given tile
      */
-    Entities.prototype.whoIsOnTile = function(tile) {
-        var entityToReturn = _.find(this.entityList, function(entity){ return entity.tile == tile; });
+    Entities.prototype.whoIsOnTile = function (tile) {
+        var entityToReturn = _.find(this.entityList, function (entity) {
+            return entity.tile == tile;
+        });
         console.log("Found entity " + entityToReturn);
         return entityToReturn;
     };
@@ -67,7 +68,7 @@ define(["entity/Entity", "util/Utils", "map/Maps"], function(entityFactory, util
     /**
      * Select the given entity
      */
-    Entities.prototype.selectEntity = function(selectedEntity) {
+    Entities.prototype.selectEntity = function (selectedEntity) {
         console.log("Select entity " + selectedEntity);
         if (utils.isDefined(selectedEntity)) {
             this.selectedEntity = selectedEntity;
@@ -78,7 +79,7 @@ define(["entity/Entity", "util/Utils", "map/Maps"], function(entityFactory, util
     /**
      * Unselect the selected entity
      */
-    Entities.prototype.unselectEntity = function() {
+    Entities.prototype.unselectEntity = function () {
         console.log("Unselect entity " + this.selectedEntity);
         if (utils.isDefined(this.selectedEntity)) {
             this.selectedEntity.unselect();
@@ -89,7 +90,7 @@ define(["entity/Entity", "util/Utils", "map/Maps"], function(entityFactory, util
     /**
      * Update the position of the selected entity
      */
-    Entities.prototype.updatePositionOfSelected = function(x, y) {
+    Entities.prototype.updatePositionOfSelected = function (x, y) {
         if (utils.isDefined(this.selectedEntity)) {
             this.selectedEntity.updatePosition(x, y);
         }
@@ -98,12 +99,12 @@ define(["entity/Entity", "util/Utils", "map/Maps"], function(entityFactory, util
     /**
      * Update the tile of the selected entity
      */
-    Entities.prototype.updateTileOfSelected = function(tile) {
+    Entities.prototype.updateTileOfSelected = function (tile) {
         if (utils.isDefined(this.selectedEntity)) {
             console.log("Moving entity " + this.selectedEntity + " to tile " + tile);
             this.selectedEntity.updateTile(tile);
         }
     };
-    
+
     return new Entities();
 });

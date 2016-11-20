@@ -1,4 +1,4 @@
-define(["util/Utils", "touch/menu/MainMenu", "touch/menu/EntityDetailsWindow"], function (utils, mainMenu, entityDetailsWindowFactory) {
+define(["util/Utils", "touch/menu/MainMenu", "touch/menu/EntityDetailsWindow"], function (utils, mainMenu, EntityDetailsWindow) {
     function UserInterfaces() {
         this.windowList = [];
     }
@@ -6,16 +6,16 @@ define(["util/Utils", "touch/menu/MainMenu", "touch/menu/EntityDetailsWindow"], 
     /**
      * Initilize this
      */
-    UserInterfaces.prototype.initialize = function() {
+    UserInterfaces.prototype.initialize = function () {
         this.addWindow(mainMenu);
     }
 
     /**
      * Update this
      */
-    UserInterfaces.prototype.update = function() {
+    UserInterfaces.prototype.update = function () {
         // Update all windows.
-        this.windowList.forEach(function(sseed) {
+        this.windowList.forEach(function (sseed) {
             console.log("Update" + sseed);
             //sseed.update();
         });
@@ -24,9 +24,9 @@ define(["util/Utils", "touch/menu/MainMenu", "touch/menu/EntityDetailsWindow"], 
     /**
      * Draw this
      */
-    UserInterfaces.prototype.draw = function() {
+    UserInterfaces.prototype.draw = function () {
         //console.log("drawing interface");
-        this.windowList.forEach(function(myWindow) {
+        this.windowList.forEach(function (myWindow) {
             myWindow.draw();
         });
     }
@@ -34,14 +34,14 @@ define(["util/Utils", "touch/menu/MainMenu", "touch/menu/EntityDetailsWindow"], 
     /**
      * Add a new window to the screen
      */
-    UserInterfaces.prototype.addWindow = function(myWindow) {
+    UserInterfaces.prototype.addWindow = function (myWindow) {
         this.windowList.push(myWindow);
     }
 
     /**
      * Return the window corresponding to the coordinate, undefined if no window was found
      */
-    UserInterfaces.prototype.getSelectedWindow = function(x, y) {
+    UserInterfaces.prototype.getSelectedWindow = function (x, y) {
         var windowToReturn = undefined;
         for (var i = this.windowList.length - 1; i >= 0; i--) {
             if (this.windowList[i].isOverWindow()) {
@@ -49,29 +49,29 @@ define(["util/Utils", "touch/menu/MainMenu", "touch/menu/EntityDetailsWindow"], 
             }
         }
         console.log("Found window " + windowToReturn);
-        return windowToReturn;    
+        return windowToReturn;
     }
 
     /**
      * Select the window that was previously clicked
      */
-    UserInterfaces.prototype.selectWindow = function(myWindow) {
+    UserInterfaces.prototype.selectWindow = function (myWindow) {
         // Nothing for now
     }
 
     /**
      * Open the details of the entity
      */
-    UserInterfaces.prototype.openEntityDetails = function(entity) {
+    UserInterfaces.prototype.openEntityDetails = function (entity) {
         if (utils.isDefined(entity)) {
-            this.addWindow(entityDetailsWindowFactory.create(entity));
+            this.addWindow(new EntityDetailsWindow(entity));
         }
     }
 
     /**
      * Execute the action linked to the element provided
      */
-    UserInterfaces.prototype.executeAction = function(element) {
+    UserInterfaces.prototype.executeAction = function (element) {
         // TODO do more...
         if (utils.isDefined(element)) {
             console.log("Executing action linked to " + element);
@@ -81,9 +81,9 @@ define(["util/Utils", "touch/menu/MainMenu", "touch/menu/EntityDetailsWindow"], 
     /**
      * Close all the windows but keep the main menu
      */
-    UserInterfaces.prototype.closeWindows = function() {
+    UserInterfaces.prototype.closeWindows = function () {
         this.windowList.splice(1, this.windowList.length);
     }
-    
+
     return new UserInterfaces();
 });

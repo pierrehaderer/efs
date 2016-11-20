@@ -18,7 +18,7 @@ define(["img/Images", "canvas/context"], function (images, can) {
     /**
      * Draw this
      */
-    UIElement.prototype.draw = function() {
+    UIElement.prototype.draw = function () {
         //console.log("drawing button");
         can.ctx.drawImage(this.image, this.x, this.y);
         can.ctx.fillText(this.text, this.x + UIElement.PADDING, this.y + UIElement.PADDING);
@@ -27,17 +27,13 @@ define(["img/Images", "canvas/context"], function (images, can) {
     /**
      * Return the element corresponding to the coordinate
      */
-    UIElement.prototype.isOverElement = function(x, y) {
+    UIElement.prototype.isOverElement = function (x, y) {
         return x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.width;
     }
 
-    UIElement.prototype.toString = function() {
-        return "UIElement {name: '" +this.imageName + "'}";
+    UIElement.prototype.toString = function () {
+        return "UIElement {name: '" + this.imageName + "'}";
     }
-    
-    return {
-        create : function (menu, imageName, text, x, y) {
-            return new UIElement(menu, imageName, text, x, y);
-        }
-    };
+
+    return UIElement;
 });

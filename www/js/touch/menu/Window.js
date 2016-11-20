@@ -1,4 +1,4 @@
-define(["img/Images", "touch/menu/UIElement"], function(images, uiElementFactory) { 
+define(["img/Images", "touch/menu/UIElement"], function (images, UIElement) {
 
     function Window(name, imageName, x, y) {
         this.name = name;
@@ -15,15 +15,14 @@ define(["img/Images", "touch/menu/UIElement"], function(images, uiElementFactory
     /**
      * Update this
      */
-    Window.prototype.update = function() {
-    };
+    Window.prototype.update = function () {};
 
     /**
      * Draw this
      */
-    Window.prototype.draw = function() {    
+    Window.prototype.draw = function () {
         // Draw All elements.
-        this.elementList.forEach(function(element) {
+        this.elementList.forEach(function (element) {
             element.draw(this.x, this.y);
         });
     };
@@ -31,14 +30,14 @@ define(["img/Images", "touch/menu/UIElement"], function(images, uiElementFactory
     /**
      * Add an element to this menu
      */
-    Window.prototype.addElement = function(imageName, text, x, y) {
-        this.elementList.push(uiElementFactory.create(this, imageName, text, x, y));
+    Window.prototype.addElement = function (imageName, text, x, y) {
+        this.elementList.push(new UIElement(this, imageName, text, x, y));
     };
 
     /**
      * Return true if the coordinate provided are over the window.
      */
-    Window.prototype.isOverWindow = function(x, y) {
+    Window.prototype.isOverWindow = function (x, y) {
         return (x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.width);
     };
 
@@ -46,13 +45,15 @@ define(["img/Images", "touch/menu/UIElement"], function(images, uiElementFactory
      * Return the element of the window corresponding to the coordinate.
      * Should only be called after verifying the isOverWindow method. 
      */
-    Window.prototype.getSelectedElement = function(x, y) {
-        return this.elementList[_.findLastIndex(this.elementList, function(element) { return element.isOverElement(x, y); })];
+    Window.prototype.getSelectedElement = function (x, y) {
+        return this.elementList[_.findLastIndex(this.elementList, function (element) {
+            return element.isOverElement(x, y);
+        })];
     };
 
-    Window.prototype.toString = function() {
+    Window.prototype.toString = function () {
         return "Window {name:'" + this.name + "',x:'" + this.x + "',y:'" + this.y + "',width:'" + this.width + "',height:'" + this.height + "'}";
     };
-    
+
     return Window;
 });

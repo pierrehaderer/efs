@@ -1,5 +1,6 @@
-define(["canvas/context", "img/Images", "util/Utils", "map/Tile"], function (can, images, utils, tileFactory) {
+define(["canvas/context", "img/Images", "util/Utils", "map/Tile"], function (can, images, utils, Tile) {
     var maps;
+
     function Maps() {
         this.name = "";
         this.image = null;
@@ -21,8 +22,7 @@ define(["canvas/context", "img/Images", "util/Utils", "map/Tile"], function (can
     /**
      * Update this
      */
-    Maps.prototype.update = function () {
-    };
+    Maps.prototype.update = function () {};
 
     /**
      * Draw this
@@ -30,7 +30,7 @@ define(["canvas/context", "img/Images", "util/Utils", "map/Tile"], function (can
     Maps.prototype.draw = function () {
         can.ctx.drawImage(this.image, this.x, this.y);
     };
-    
+
     /**
      * Load a map with the given name and given content.
      */
@@ -46,15 +46,15 @@ define(["canvas/context", "img/Images", "util/Utils", "map/Tile"], function (can
         var column = 0;
         for (var i = 0; i < stringContent.length; i++) {
             var currentChar = stringContent.charAt(i);
-            if (currentChar == tileFactory.CHAR_EOL) {
+            if (currentChar == Tile.CHAR_EOL) {
                 this.width = myLine.length;
                 this.content.push(myLine);
                 myLine = [];
                 line++;
                 column = 0;
             } else {
-                var tile = tileFactory.create(column, line, currentChar);
-                if (currentChar == tileFactory.CHAR_ENTRANCE) {
+                var tile = new Tile(column, line, currentChar);
+                if (currentChar == Tile.CHAR_ENTRANCE) {
                     this.entranceList.push(tile);
                 }
                 myLine.push(tile);
@@ -70,17 +70,17 @@ define(["canvas/context", "img/Images", "util/Utils", "map/Tile"], function (can
                 var tile = this.content[x][y];
                 //console.log(tile);
                 var nextTiles = [];
-                if (tile.x > 0 && this.content[tile.x-1][tile.y].char == tileFactory.CHAR_FREE) {
-                    nextTiles.push(this.content[tile.x-1][tile.y]);
+                if (tile.x > 0 && this.content[tile.x - 1][tile.y].char == Tile.CHAR_FREE) {
+                    nextTiles.push(this.content[tile.x - 1][tile.y]);
                 }
-                if (tile.x < (this.width - 1) && this.content[tile.x+1][tile.y].char == tileFactory.CHAR_FREE) {
-                    nextTiles.push(this.content[tile.x+1][tile.y]);
+                if (tile.x < (this.width - 1) && this.content[tile.x + 1][tile.y].char == Tile.CHAR_FREE) {
+                    nextTiles.push(this.content[tile.x + 1][tile.y]);
                 }
-                if (tile.y > 0 && this.content[tile.x][tile.y-1].char == tileFactory.CHAR_FREE) {
-                    nextTiles.push(this.content[tile.x][tile.y-1]);
+                if (tile.y > 0 && this.content[tile.x][tile.y - 1].char == Tile.CHAR_FREE) {
+                    nextTiles.push(this.content[tile.x][tile.y - 1]);
                 }
-                if (tile.y < (this.height - 1) && this.content[tile.x][tile.y+1].char == tileFactory.CHAR_FREE) {
-                    nextTiles.push(this.content[tile.x][tile.y+1]);
+                if (tile.y < (this.height - 1) && this.content[tile.x][tile.y + 1].char == Tile.CHAR_FREE) {
+                    nextTiles.push(this.content[tile.x][tile.y + 1]);
                 }
                 tile.setNextTiles(nextTiles);
             }
@@ -95,7 +95,7 @@ define(["canvas/context", "img/Images", "util/Utils", "map/Tile"], function (can
     /**
      * Update the position of the map after a delta of (x, y).
      */
-    Maps.prototype.updatePosition = function(deltaX, deltaY) {
+    Maps.prototype.updatePosition = function (deltaX, deltaY) {
         var newX = this.x + deltaX;
         var canvasWidth = can.canvas.getAttribute("width");
         var mapWidth = this.image.width;
@@ -123,17 +123,17 @@ define(["canvas/context", "img/Images", "util/Utils", "map/Tile"], function (can
     /**
      * Obtain a random entrance of the current map.
      */
-    Maps.prototype.getEntrance = function() {
+    Maps.prototype.getEntrance = function () {
         return _.sample(this.entranceList);
     };
 
     /**
      * Obtain the tile at the given coordinate
      */
-    Maps.prototype.getTile = function(x, y) {
-        return this.content[Math.floor((x - this.x)/tileFactory.SIZE)][Math.floor((y - this.y)/tileFactory.SIZE)];
+    Maps.prototype.getTile = function (x, y) {
+        return this.content[Math.floor((x - this.x) / Tile.SIZE)][Math.floor((y - this.y) / Tile.SIZE)];
     };
-    
+
     maps = new Maps();
     return maps;
 });

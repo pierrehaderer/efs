@@ -1,4 +1,4 @@
-define(["img/Images", "map/Maps", "canvas/context", "map/Tile"], function(images, maps, can, tileFactory) {
+define(["img/Images", "map/Maps", "canvas/context", "map/Tile"], function (images, maps, can, Tile) {
 
     function Entity(name, type, tile) {
         console.log("Creation of Entity " + name + " on tile:" + tile);
@@ -11,14 +11,14 @@ define(["img/Images", "map/Maps", "canvas/context", "map/Tile"], function(images
         this.competences = "TODO";
         this.tile = tile;
         this.selected = false;
-        this.x = tile.x * tileFactory.SIZE;
-        this.y = tile.y * tileFactory.SIZE;
+        this.x = tile.x * Tile.SIZE;
+        this.y = tile.y * Tile.SIZE;
     }
 
     /**
      * Update this
      */
-    Entity.prototype.update = function() {
+    Entity.prototype.update = function () {
         // Randomly move an entity
         if (!this.selected) {
             if (Math.random() < 0.01) { // 1 times every 1 seconds en moyenne 
@@ -33,15 +33,15 @@ define(["img/Images", "map/Maps", "canvas/context", "map/Tile"], function(images
     /**
      * Draw this
      */
-    Entity.prototype.draw = function() {
-        //console.log("displaying entity " + this.name + " on " + this.tile + " => (" + (this.tile.x * tileFactory.SIZE).toString() + ", " + (this.tile.y * tileFactory.SIZE).toString() + ")");
+    Entity.prototype.draw = function () {
+        //console.log("displaying entity " + this.name + " on " + this.tile + " => (" + (this.tile.x * Tile.SIZE).toString() + ", " + (this.tile.y * Tile.SIZE).toString() + ")");
         can.ctx.drawImage((this.selected ? this.selectedImage : this.image), this.x + maps.x, this.y + maps.y);
     };
 
     /**
      * Update the position according to the given coordinate
      */
-    Entity.prototype.updatePosition = function(deltaX, deltaY) {
+    Entity.prototype.updatePosition = function (deltaX, deltaY) {
         this.x += deltaX;
         this.y += deltaY;
     };
@@ -49,33 +49,29 @@ define(["img/Images", "map/Maps", "canvas/context", "map/Tile"], function(images
     /**
      * Update the tile and position according to the given tile
      */
-    Entity.prototype.updateTile = function(tile) {
+    Entity.prototype.updateTile = function (tile) {
         if (tile.isFree()) {
             this.tile = tile;
-            this.x = tile.x * tileFactory.SIZE;
-            this.y = tile.y * tileFactory.SIZE;
+            this.x = tile.x * Tile.SIZE;
+            this.y = tile.y * Tile.SIZE;
         } else {
             console.log("This tile is not free. Placing entity back to tile " + this.tile);
-            this.x = tile.x * tileFactory.SIZE;
-            this.y = tile.y * tileFactory.SIZE;
+            this.x = tile.x * Tile.SIZE;
+            this.y = tile.y * Tile.SIZE;
         }
     };
 
-    Entity.prototype.select = function() {
+    Entity.prototype.select = function () {
         this.selected = true;
     };
 
-    Entity.prototype.unselect = function() {
+    Entity.prototype.unselect = function () {
         this.selected = false;
     };
 
-    Entity.prototype.toString = function() {
+    Entity.prototype.toString = function () {
         return "Entity {name:'" + this.name + "',type:'" + this.type + "',tile:" + this.tile + "}";
     };
-    
-    return {
-        create : function(name, type, tile) {
-            return new Entity(name, type, tile);
-        }
-    }
+
+    return Entity;
 });
