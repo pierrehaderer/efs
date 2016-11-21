@@ -1,4 +1,5 @@
-define(["img/Images", "map/Maps", "canvas/context", "map/Tile"], function (images, maps, can, Tile) {
+define(["map/Tile"],
+function (Tile) {
 
     function Entity(name, type, tile) {
         console.log("Creation of Entity " + name + " on tile:" + tile);
@@ -6,7 +7,7 @@ define(["img/Images", "map/Maps", "canvas/context", "map/Tile"], function (image
         this.description = "TODO";
         this.type = type;
         this.image = images.get("entity/" + type);
-        this.selectedImage = images.get("entity/selected_" + type);
+        this.selectedImage = app.images.get("entity/selected_" + type);
         this.portrait = "TODO";
         this.competences = "TODO";
         this.tile = tile;
@@ -35,7 +36,7 @@ define(["img/Images", "map/Maps", "canvas/context", "map/Tile"], function (image
      */
     Entity.prototype.draw = function () {
         //console.log("displaying entity " + this.name + " on " + this.tile + " => (" + (this.tile.x * Tile.SIZE).toString() + ", " + (this.tile.y * Tile.SIZE).toString() + ")");
-        can.ctx.drawImage((this.selected ? this.selectedImage : this.image), this.x + maps.x, this.y + maps.y);
+        app.ctx.drawImage((this.selected ? this.selectedImage : this.image), this.x + app.maps.x, this.y + app.maps.y);
     };
 
     /**

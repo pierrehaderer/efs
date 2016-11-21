@@ -1,6 +1,6 @@
-define(["Config", "map/Maps", "touch/UserInterfaces", "entity/Entities", "util/Utils"], 
-       function(config, maps, userInterfaces, entities, utils) {
-    var touches;
+define(["Config", "util/Utils"], 
+function(Config, Utils) {
+
     function Touches() {
         this.mouseX = 0;
         this.mouseY = 0;
@@ -34,9 +34,9 @@ define(["Config", "map/Maps", "touch/UserInterfaces", "entity/Entities", "util/U
     };
 
     // To be able to use the keyword "this" in the submethods ...
-    Touches.prototype.onmousemove = function(event) {touches.mousemove(event);}
-    Touches.prototype.onmousedown = function(event) {touches.mousedown(event);}
-    Touches.prototype.onmouseup   = function(event) {touches.mouseup(event);}
+    Touches.prototype.onmousemove = function(event) {app.touches.mousemove(event);}
+    Touches.prototype.onmousedown = function(event) {app.touches.mousedown(event);}
+    Touches.prototype.onmouseup   = function(event) {app.touches.mouseup(event);}
 
     /**
      * Update this
@@ -44,11 +44,11 @@ define(["Config", "map/Maps", "touch/UserInterfaces", "entity/Entities", "util/U
     Touches.prototype.update = function() {
         if (this.mouseClicked) {
             if (!this.playerIsSliding && !this.playerIsSelecting) {
-                this.timerSelection += config.INTERVAL;
+                this.timerSelection += Config.INTERVAL;
                 if (this.timerSelection > Touches.THRESHOLD_BEFORE_SELECTING) {
                     this.playerIsSelecting = true;
-                    userInterfaces.selectWindow(this.windowClicked);
-                    entities.selectEntity(this.entityClicked);
+                    app.userInterfaces.selectWindow(this.windowClicked);
+                    app.entities.selectEntity(this.entityClicked);
                 }
             }
         }
@@ -101,14 +101,14 @@ define(["Config", "map/Maps", "touch/UserInterfaces", "entity/Entities", "util/U
     Touches.prototype.mousedown = function(event) {
         console.log("Mouse has been clicked.");
         this.mouseClicked = true;
-        this.windowClicked = userInterfaces.getSelectedWindow(this.mouseX, this.mouseY);
-        if (utils.isDefined(this.windowClicked)) {
+        this.windowClicked = app.userInterfaces.getSelectedWindow(this.mouseX, this.mouseY);
+        if (Utils.isDefined(this.windowClicked)) {
             // The player has clicked on a window, find the element of the window
             this.elementClicked = this.windowClicked.getSelectedElement(this.mouseX, this.mouseY);
         } else {
             // Check for an entity only if the player is not clicking on a window.
-            this.tileClicked = maps.getTile(this.mouseX, this.mouseY);
-            this.entityClicked = entities.whoIsOnTile(this.tileClicked);
+            this.tileClicked = app.maps.getTile(this.mouseX, this.mouseY);
+            this.entityClicked = app.entities.whoIsOnTile(this.tileClicked);
         }
     }
 
@@ -124,16 +124,16 @@ define(["Config", "map/Maps", "touch/UserInterfaces", "entity/Entities", "util/U
                 entities.updateTileOfSelected(maps.getTile(this.mouseX, this.mouseY));
             } else {
                 console.log("Player has clicked on " + this.windowClicked);
-                userInterfaces.executeAction(this.elementClicked);
+                app.userInterfaces.executeAction(this.elementClicked);
                 console.log("Player has clicked on " + this.entityClicked);
-                userInterfaces.openEntityDetails(this.entityClicked);
+                app.userInterfaces.openEntityDetails(this.entityClicked);
             }
         } else {
             // Player has briefly clicked, he wants to select something.
             console.log("Player has briefly clicked on " + this.windowClicked);
-            userInterfaces.executeAction(this.elementClicked);
+            app.userInterfaces.executeAction(this.elementClicked);
             console.log("Player has briefly clicked on " + this.entityClicked);
-            userInterfaces.openEntityDetails(this.entityClicked);
+            app.userInterfaces.openEntityDetails(this.entityClicked);
         }
 
         this.mouseClicked = false;
@@ -141,7 +141,7 @@ define(["Config", "map/Maps", "touch/UserInterfaces", "entity/Entities", "util/U
         this.tileClicked = undefined;
         this.elementClicked = undefined;
         this.entityClicked = undefined;
-        entities.unselectEntity();
+        app.entities.unselectEntity();
 
         this.playerIsSelecting = false;
         this.timerSelection = 0;
@@ -166,14 +166,13 @@ define(["Config", "map/Maps", "touch/UserInterfaces", "entity/Entities", "util/U
     Touches.prototype.slide = function(deltaX, deltaY) {
         if (this.playerIsSelecting) {
             // An entity is selected, the player slides to move it
-            entities.updatePositionOfSelected(deltaX, deltaY);
+            app.entities.updatePositionOfSelected(deltaX, deltaY);
         } else {
             // Nothing selected, the player slides to move the map.
-            maps.updatePosition(deltaX, deltaY);
+            app.maps.updatePosition(deltaX, deltaY);
         }
     }
     
-    touches = new Touches();
-    return touches;
+    return Touches;
 
 });

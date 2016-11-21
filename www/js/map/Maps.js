@@ -1,5 +1,5 @@
-define(["canvas/context", "img/Images", "util/Utils", "map/Tile"], function (can, images, utils, Tile) {
-    var maps;
+define(["util/Utils", "map/Tile"],
+function (Utils, Tile) {
 
     function Maps() {
         this.name = "";
@@ -28,7 +28,7 @@ define(["canvas/context", "img/Images", "util/Utils", "map/Tile"], function (can
      * Draw this
      */
     Maps.prototype.draw = function () {
-        can.ctx.drawImage(this.image, this.x, this.y);
+        app.ctx.drawImage(this.image, this.x, this.y);
     };
 
     /**
@@ -38,7 +38,7 @@ define(["canvas/context", "img/Images", "util/Utils", "map/Tile"], function (can
         // Initialize map
         this.name = name;
         console.log("Create map " + this.name);
-        this.image = images.get("map/" + this.name);
+        this.image = app.images.get("map/" + this.name);
 
         // Populate content with tiles according to charContent
         var myLine = [];
@@ -62,7 +62,7 @@ define(["canvas/context", "img/Images", "util/Utils", "map/Tile"], function (can
             }
         }
         this.height = this.content.length;
-        this.content = utils.revertMatrix(this.content); // Revert content to use content[x][y] instead of content[y][x].
+        this.content = Utils.revertMatrix(this.content); // Revert content to use content[x][y] instead of content[y][x].
 
         // Pre calculate the nextTiles for all Tiles.
         for (var x = 0; x < this.width; x++) {
@@ -87,9 +87,9 @@ define(["canvas/context", "img/Images", "util/Utils", "map/Tile"], function (can
         }
 
         // Size canvas according to min of map or screen
-        can.canvas.setAttribute("width", Math.min(document.body.clientWidth, this.image.width));
-        can.canvas.setAttribute("height", Math.min(document.body.clientHeight, this.image.height));
-        can.canvas.style.visibility = "visible";
+        app.canvas.setAttribute("width", Math.min(document.body.clientWidth, this.image.width));
+        app.canvas.setAttribute("height", Math.min(document.body.clientHeight, this.image.height));
+        app.canvas.style.visibility = "visible";
     };
 
     /**
@@ -97,7 +97,7 @@ define(["canvas/context", "img/Images", "util/Utils", "map/Tile"], function (can
      */
     Maps.prototype.updatePosition = function (deltaX, deltaY) {
         var newX = this.x + deltaX;
-        var canvasWidth = can.canvas.getAttribute("width");
+        var canvasWidth = app.canvas.getAttribute("width");
         var mapWidth = this.image.width;
         if (newX < canvasWidth - mapWidth) {
             this.x = canvasWidth - mapWidth;
@@ -108,7 +108,7 @@ define(["canvas/context", "img/Images", "util/Utils", "map/Tile"], function (can
         }
 
         var newY = this.y + deltaY;
-        var canvasHeight = can.canvas.getAttribute("height");
+        var canvasHeight = app.canvas.getAttribute("height");
         var mapHeight = this.image.height;
         if (newY < canvasHeight - mapHeight) {
             this.y = canvasHeight - mapHeight;
@@ -134,6 +134,6 @@ define(["canvas/context", "img/Images", "util/Utils", "map/Tile"], function (can
         return this.content[Math.floor((x - this.x) / Tile.SIZE)][Math.floor((y - this.y) / Tile.SIZE)];
     };
 
-    maps = new Maps();
-    return maps;
+    return Maps;
+
 });

@@ -1,8 +1,9 @@
-define(["img/Images", "touch/menu/UIElement"], function (images, UIElement) {
+define(["touch/menu/UIElement"],
+function ( UIElement) {
 
     function Window(name, imageName, x, y) {
         this.name = name;
-        this.image = images.get(imageName);
+        this.image = app.images.get(imageName);
         this.width = this.image.width;
         this.height = this.image.height;
         this.x = x;
@@ -56,4 +57,5 @@ define(["img/Images", "touch/menu/UIElement"], function (images, UIElement) {
     };
 
     return Window;
+
 });

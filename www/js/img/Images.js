@@ -1,4 +1,5 @@
-define([], function () {
+define([],
+function () {
 
     function Images(x, y, name) {
         this.imageList = {};
@@ -44,7 +45,5 @@ define([], function () {
         }
     }
     
-    var images = new Images();
-    images.initialize();
-    return images;
+    return Images;
 });

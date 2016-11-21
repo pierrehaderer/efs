@@ -1,4 +1,5 @@
-define(["touch/menu/Window"], function(Window) {
+define(["touch/menu/Window"],
+function(Window) {
 
     function MainMenu() {
         console.log("Create main menu.");
@@ -7,9 +8,9 @@ define(["touch/menu/Window"], function(Window) {
         this.addElement("UI/createRoomButton", "", 10, 40);
     }
 
-    MainMenu.prototype = Object.create(Window.prototype, {
-                                       
-    });
+    // For heritage
+    MainMenu.prototype = Object.create(Window.prototype, {});
     
-    return new MainMenu();
+    return MainMenu;
+
 });

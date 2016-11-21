@@ -1,4 +1,5 @@
-define([], function () {
+define([],
+function () {
 
     function Tile(x, y, char) {
         this.x = x;
@@ -30,4 +31,5 @@ define([], function () {
     };
 
     return Tile;
+    
 });

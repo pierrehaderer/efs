@@ -1,5 +1,5 @@
-define(["canvas/context", "touch/Touches", "map/Maps", "entity/Entities", "util/Utils"], 
-       function(can, touches, maps, entities, utils) {
+define(["util/Utils"], 
+function(Utils) {
 
     function DebugInterfaces() {
         this.displayed = true;
@@ -22,21 +22,22 @@ define(["canvas/context", "touch/Touches", "map/Maps", "entity/Entities", "util/
      */
     DebugInterfaces.prototype.draw = function() {
         if (this.displayed) {
-            var canvasWidth = can.canvas.getAttribute("width");
-            can.ctx.save();
-            can.ctx.fillStyle = 'black';
-            can.ctx.fillRect(canvasWidth - 200, 0, 200, 80);
-            can.ctx.fillStyle = 'white';
-            can.ctx.font = '16px Arial';
-            can.ctx.fillText("Map(x,y) = (" + maps.x.toString() + "," + maps.y.toString() + ")", canvasWidth - 195, 15);
-            can.ctx.fillText("Mouse(x,y) = (" + touches.mouseX.toString() + "," + touches.mouseY.toString() + ")", canvasWidth - 195, 30);
-            if (utils.isDefined(entities.selectedEntity)) {
-                can.ctx.fillText("Entity = " + entities.selectedEntity.name + "(" + entities.selectedEntity.x + "," + entities.selectedEntity.y + ")", canvasWidth - 195, 45);
+            var canvasWidth = app.canvas.getAttribute("width");
+            app.ctx.save();
+            app.ctx.fillStyle = 'black';
+            app.ctx.fillRect(canvasWidth - 200, 0, 200, 80);
+            app.ctx.fillStyle = 'white';
+            app.ctx.font = '16px Arial';
+            app.ctx.fillText("Map(x,y) = (" + app.maps.x.toString() + "," + app.maps.y.toString() + ")", canvasWidth - 195, 15);
+            app.ctx.fillText("Mouse(x,y) = (" + app.touches.mouseX.toString() + "," + app.touches.mouseY.toString() + ")", canvasWidth - 195, 30);
+            if (Utils.isDefined(entities.selectedEntity)) {
+                app.ctx.fillText("Entity = " + app.entities.selectedEntity.name + "(" + app.entities.selectedEntity.x + "," + app.entities.selectedEntity.y + ")", canvasWidth - 195, 45);
 
             }
-            can.ctx.restore();
+            app.ctx.restore();
         }
     }
     
-    return new DebugInterfaces();
+    return DebugInterfaces;
+
 });

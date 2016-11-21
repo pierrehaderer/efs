@@ -1,4 +1,6 @@
-define(["util/Utils", "touch/menu/MainMenu", "touch/menu/EntityDetailsWindow"], function (utils, mainMenu, EntityDetailsWindow) {
+define(["util/Utils", "touch/menu/MainMenu", "touch/menu/EntityDetailsWindow"],
+function (Utils, MainMenu, EntityDetailsWindow) {
+
     function UserInterfaces() {
         this.windowList = [];
     }
@@ -15,9 +17,9 @@ define(["util/Utils", "touch/menu/MainMenu", "touch/menu/EntityDetailsWindow"], 
      */
     UserInterfaces.prototype.update = function () {
         // Update all windows.
-        this.windowList.forEach(function (sseed) {
-            console.log("Update" + sseed);
-            //sseed.update();
+        this.windowList.forEach(function (myWindow) {
+            console.log("Update" + myWindow);
+            //myWindow.update();
         });
     }
 
@@ -85,5 +87,5 @@ define(["util/Utils", "touch/menu/MainMenu", "touch/menu/EntityDetailsWindow"], 
         this.windowList.splice(1, this.windowList.length);
     }
 
-    return new UserInterfaces();
+    return UserInterfaces;
 });

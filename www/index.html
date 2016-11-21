@@ -22,23 +22,28 @@
 </head>
 
 <body>
-    <canvas id="ctx" width="0" height="0" style="visibility: hidden; border:0px solid #000000;"></canvas>
+    <canvas id="ctx" width="10" height="10" style="visibility: visible; border:1px solid #000000;"></canvas>
     <script type="text/javascript" src="cordova.js"></script>
 
     <script src="includes/underscore.js"></script>
     <script src="includes/require.js"></script>
     <script>
+        
+        var app;
+        
         require.config({
             baseUrl: "js"
         });
         require(["App"],
-            function(app) {
-                if (!window.cordova) {
-                    app.onDeviceReady();
-                }
+            function(App) {
+                app = new App(); 
+                app.start();
             }
         );
 
+//        if (!window.cordova) {
+//            app.onDeviceReady();
+//        }
     </script>
 </body>
 

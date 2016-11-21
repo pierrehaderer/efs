@@ -1,28 +1,45 @@
-require(["map/Maps", "canvas/context"], function(map, can) {
+
+var app = {
+    images : {
+        get : function(string) {
+            var image = {
+                width : 0,
+                height : 0
+            };
+            return image;
+       }
+    },
+    canvas : {
+        setAttribute : function() {},
+        gatAttribute : function() {},
+        style : {}
+    }
+};
+
+require(["map/Maps"],
+function(Maps) {
+        
+    var maps = new Maps();
+
     describe("Test de la map", function() {
-        can.canvas = {
-            setAttribute : function() {},
-            gatAttribute : function() {},
-            style : {}
-        };
-        map.loadMap("Test", "abc|def|ghi|");
+        maps.loadMap("Test", "abc|def|ghi|");
 
         it("Test du parsing", function() {
-            expect(map.content.length).toBe(3);
+            expect(maps.content.length).toBe(3);
 
-            expect(map.content[0].length).toBe(3);
-            expect(map.content[1].length).toBe(3);
-            expect(map.content[2].length).toBe(3);
+            expect(maps.content[0].length).toBe(3);
+            expect(maps.content[1].length).toBe(3);
+            expect(maps.content[2].length).toBe(3);
 
-            expect(map.content[0][0].char).toBe("a");
-            expect(map.content[1][0].char).toBe("b");
-            expect(map.content[2][0].char).toBe("c");
-            expect(map.content[0][1].char).toBe("d");
-            expect(map.content[1][1].char).toBe("e");
-            expect(map.content[2][1].char).toBe("f");
-            expect(map.content[0][2].char).toBe("g");
-            expect(map.content[1][2].char).toBe("h");
-            expect(map.content[2][2].char).toBe("i");
+            expect(maps.content[0][0].char).toBe("a");
+            expect(maps.content[1][0].char).toBe("b");
+            expect(maps.content[2][0].char).toBe("c");
+            expect(maps.content[0][1].char).toBe("d");
+            expect(maps.content[1][1].char).toBe("e");
+            expect(maps.content[2][1].char).toBe("f");
+            expect(maps.content[0][2].char).toBe("g");
+            expect(maps.content[1][2].char).toBe("h");
+            expect(maps.content[2][2].char).toBe("i");
         });
     });
 });

@@ -1,4 +1,5 @@
-define(["entity/Entity", "util/Utils", "map/Maps"], function (Entity, utils, maps) {
+define(["entity/Entity", "util/Utils"],
+function (Entity, Utils) {
 
     function Entities() {
         this.entityList = [];
@@ -17,7 +18,7 @@ define(["entity/Entity", "util/Utils", "map/Maps"], function (Entity, utils, map
         // Randomly generate an entity
         if (Math.random() < 0.01 && this.entityList.length < 10) { // Every 4 seconds en moyenne 
             var name = "entity" + this.entityList.length.toString();
-            var entrance = maps.getEntrance();
+            var entrance = app.maps.getEntrance();
             var myEntity = new Entity(name, "donor", entrance);
             this.add(myEntity);
         }
@@ -70,7 +71,7 @@ define(["entity/Entity", "util/Utils", "map/Maps"], function (Entity, utils, map
      */
     Entities.prototype.selectEntity = function (selectedEntity) {
         console.log("Select entity " + selectedEntity);
-        if (utils.isDefined(selectedEntity)) {
+        if (Utils.isDefined(selectedEntity)) {
             this.selectedEntity = selectedEntity;
             this.selectedEntity.select();
         }
@@ -81,7 +82,7 @@ define(["entity/Entity", "util/Utils", "map/Maps"], function (Entity, utils, map
      */
     Entities.prototype.unselectEntity = function () {
         console.log("Unselect entity " + this.selectedEntity);
-        if (utils.isDefined(this.selectedEntity)) {
+        if (Utils.isDefined(this.selectedEntity)) {
             this.selectedEntity.unselect();
             this.selectedEntity = undefined;
         }
@@ -91,7 +92,7 @@ define(["entity/Entity", "util/Utils", "map/Maps"], function (Entity, utils, map
      * Update the position of the selected entity
      */
     Entities.prototype.updatePositionOfSelected = function (x, y) {
-        if (utils.isDefined(this.selectedEntity)) {
+        if (Utils.isDefined(this.selectedEntity)) {
             this.selectedEntity.updatePosition(x, y);
         }
     };
@@ -100,11 +101,11 @@ define(["entity/Entity", "util/Utils", "map/Maps"], function (Entity, utils, map
      * Update the tile of the selected entity
      */
     Entities.prototype.updateTileOfSelected = function (tile) {
-        if (utils.isDefined(this.selectedEntity)) {
+        if (Utils.isDefined(this.selectedEntity)) {
             console.log("Moving entity " + this.selectedEntity + " to tile " + tile);
             this.selectedEntity.updateTile(tile);
         }
     };
 
-    return new Entities();
+    return Entities;
 });

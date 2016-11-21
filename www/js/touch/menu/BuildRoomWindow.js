@@ -1,4 +1,6 @@
-define(["touch/menu/Window"], function(Window) {
+define(["touch/menu/Window"],
+function (Window) {
+
     function BuildRoomWindow() {
         console.log("Opening menu to build room.");
         Window.apply(this, ["build_room_background", "UI/menu/build_room/background", 50, 10]);
@@ -8,8 +10,9 @@ define(["touch/menu/Window"], function(Window) {
         this.addElement("descrentityDetailsWindowFactoryiption_background", "UI/menu/build_room/description_background", 60, 10);
     }
 
-    BuildRoomWindow.prototype = Object.create(Window.prototype, {
-    });
+    // For heritage
+    BuildRoomWindow.prototype = Object.create(Window.prototype, {});
     
-    return new BuildRoomWindow();
+    return BuildRoomWindow;
+
 });
