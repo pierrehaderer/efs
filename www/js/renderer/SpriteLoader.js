@@ -13,8 +13,48 @@ define([], function () {
         sprite : function(name) {
             return new PIXI.Sprite(PIXI.loader.resources[name].texture);
         },
-        people : function(name) {
+        people : function(name, action, direction) {
             return new PIXI.Sprite(PIXI.loader.resources[peopleJson].textures[name]);
+        },
+        Names : {
+            Blue : "Blue",
+            Green : "Green",
+            Purple : "Purple",
+            PurpleBlack : "PurpleBlack",
+            Red : "Red",
+            WomanPurple : "WomanPurple",
+            WomanBrown : "WomanBrown",
+            WomanGreen : "WomanGreen",
+            WomanLilas : "WomanLilas",
+            WomanYellow : "WomanYellow",
+            WhiteDoctor : "WhiteDoctor",
+            Doctor : "Doctor",
+            DoctorWoman : "DoctorWoman",
+            DoctorOld : "DoctorOld",
+            DoctorWomanBlond : "DoctorWomanBlond",
+            DoctorWomanBrown : "DoctorWomanBrown",
+            PinkMan : "PinkMan",
+            PinkLady : "PinkLady",
+            PinkBlackLady : "PinkBlackLady",
+            RedDress : "RedDress",
+            Buttler : "Buttler",
+            YellowDress : "YellowDress",
+            HorseDriver : "HorseDriver",
+            Smoking : "Smoking",
+            SmokingBlue : "SmokingBlue"
+        },
+        Actions : {
+            Stand   : "Stand",
+            Walk    : "Walk",
+            Sit     : "Sit",
+            Lie     : "Lie"
+        },
+        Direction : {
+            FrontLeft : "FrontLeft",
+            FrontRight : "FrontRight",
+            BackLeft : "BackLeft",
+            BackRight : "BackRight"
         }
+    }
     };
 });

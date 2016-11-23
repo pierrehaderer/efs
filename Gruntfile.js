@@ -12,7 +12,7 @@ grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     jasmine: {
         test: {
-            src: 'www/js/**/*.js',
+            src: ['www/js/**/*.js', 'www/includes/**/*.js', '!www/js/renderer/**/*.js', '!www/**/pixi.js'],
             options: {
                 specs: 'www/test/*Spec.js',
                 helpers: 'www/test/*Helper.js',
@@ -65,5 +65,6 @@ grunt.initConfig({
 });
 
 grunt.registerTask('build', ['bower', 'bowerCopy', 'jasmine']);
-grunt.registerTask('all', ['bower', 'bowerCopy', 'jasmine', 'connect:server', 'watch']);
-grunt.registerTask('default', ['all']);
+grunt.registerTask('test', ['bower', 'bowerCopy', 'jasmine']);
+grunt.registerTask('serve', ['bower', 'bowerCopy', 'connect:server', 'watch']);
+grunt.registerTask('default', ['serve']);
