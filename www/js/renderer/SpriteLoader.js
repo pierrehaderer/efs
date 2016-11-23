@@ -55,6 +55,5 @@ define([], function () {
             BackLeft : "BackLeft",
             BackRight : "BackRight"
         }
-    }
     };
 });
