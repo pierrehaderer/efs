@@ -42,8 +42,17 @@ grunt.initConfig({
     },
     bowerCopy: {
         dep: {
-            dest: 'www/includes'
+            dest: 'www/includes',
+            options: {
+                packageSpecific: {
+                    'pixi.js': {
+                        keepExpandedHierarchy: false,
+                        files: ['dist/pixi.js']
+                    }
+                }
+            }
         }
+
     },
     bower: {
         install: {
@@ -55,5 +64,6 @@ grunt.initConfig({
     }
 });
 
+grunt.registerTask('build', ['bower', 'bowerCopy', 'jasmine']);
 grunt.registerTask('all', ['bower', 'bowerCopy', 'jasmine', 'connect:server', 'watch']);
 grunt.registerTask('default', ['all']);

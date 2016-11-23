@@ -21,25 +21,13 @@
     <title>EFS</title>
 </head>
 
-<body>
-    <canvas id="ctx" width="0" height="0" style="visibility: hidden; border:0px solid #000000;"></canvas>
-    <script type="text/javascript" src="cordova.js"></script>
+<body style="background-color:black;">
+    <img src="s61.png"/>
+    <img src="s62.png"/>
+    <img src="s63.png"/>
+    <img src="s64.png"/>
+    <img src="s69.png"/>
 
-    <script src="includes/underscore.js"></script>
-    <script src="includes/pixi.js"></script>
-    <script src="includes/require.js"></script>
-    <script>
-        require.config({
-            baseUrl: "js"
-        });
-        require(["App", "renderer/map/IsometricRenderer"],
-            function (app) {
-                if (!window.cordova) {
-                    app.onDeviceReady();
-                }
-            }
-        );
-    </script>
 </body>
 
 </html>
