@@ -28,18 +28,54 @@
     <script src="includes/underscore.js"></script>
     <script src="includes/pixi.js"></script>
     <script src="includes/require.js"></script>
+    <script src="includes/dist/jquery.js"></script>
     <script>
         require.config({
             baseUrl: "js"
         });
-        require(["App", "renderer/map/IsometricRenderer"],
-            function (app) {
+        require(["App", "renderer/isometric/MapRenderer"],
+            function(app) {
                 if (!window.cordova) {
                     app.onDeviceReady();
                 }
             }
         );
+        $(function() {
+            var max = true;
+            $("#toggle").click(function(e) {
+                e.stopPropagation();
+                if (max) {
+                    $("#ctx").css({
+                        position: "fixed",
+                        top: 0,
+                        left: 0,
+                        zIndex: 10
+                    });
+                    $("#ctx").animate({
+                        width: $("#ctx").outerWidth() / 4,
+                        height: $("#ctx").outerHeight() / 4
+                    }, 1000);
+                } else {
+                    $("#ctx").css({
+                        position: "relative",
+                        top: 0,
+                        left: 0,
+                        zIndex: 10
+                    });
+                    $("#ctx").animate({
+                        width: $("#ctx").outerWidth() * 4,
+                        height: $("#ctx").outerHeight() * 4
+                    }, 1000);
+
+                }
+                max = !max;
+            });
+        });
+
     </script>
+    <div id="toggle">
+        <button>Minimize/Maximze map</button>
+    </div>
 </body>
 
 </html>
