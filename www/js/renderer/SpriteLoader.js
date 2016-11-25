@@ -16,7 +16,7 @@ define([], function () {
         sprite: function (name) {
             return new PIXI.Sprite(PIXI.loader.resources[name].texture);
         },
-        people: function (name, action, direction) {
+        people: function (name, action, direction, speed) {
             if (action == "Walk") {
                 var frames = [];
 
@@ -25,15 +25,19 @@ define([], function () {
                 }
 
                 // create a MovieClip
-                movie = new PIXI.extras.MovieClip(frames);
+                var sprite = new PIXI.extras.AnimatedSprite(frames);
 
                 /*
                  * A MovieClip inherits all the properties of a PIXI sprite
                  * so you can change its position, its anchor, mask it, etc
                  */
-                movie.animationSpeed = 0.2;
-                movie.play();
-                return movie;
+                if (speed) {
+                    sprite.animationSpeed = speed;
+                } else {
+                    sprite.animationSpeed = 0.2;
+                }
+                sprite.play();
+                return sprite;
             }
             return new PIXI.Sprite(PIXI.loader.resources[peopleJson].textures[name + action + direction]);
         },

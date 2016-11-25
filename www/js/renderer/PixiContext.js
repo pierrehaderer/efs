@@ -16,7 +16,7 @@ define(["jquery"], function ($) {
             document.body.removeChild(this.renderer.view);
         }
         //Create the renderer
-        this.renderer = new PIXI.CanvasRenderer($("#sizer").outerWidth(), $("#sizer").outerHeight());
+        this.renderer = PIXI.autoDetectRenderer($("#sizer").outerWidth(), $("#sizer").outerHeight());
 
         this.renderer.view.id = "pixi-renderer";
         //Add the canvas to the HTML document

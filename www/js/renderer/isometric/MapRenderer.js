@@ -24,6 +24,7 @@ define(["renderer/PixiContext", "renderer/SpriteLoader", "map/Maps"], function (
                 this.map.addChild(sprite);
             }
         }
+        this.map.cacheAsBitmap = true;
         context.stage.addChild(this.map);
 
         var man = spriteLoader.people(spriteLoader.Names.Green, spriteLoader.Actions.Stand, spriteLoader.Direction.FrontLeft);
@@ -44,7 +45,7 @@ define(["renderer/PixiContext", "renderer/SpriteLoader", "map/Maps"], function (
 
     IsometricRenderer.prototype.coordinates = function (i, j) {
         return {
-            x: i * 32 + (maps.height - j) * 32,
+            x: i * 30 + (maps.height - j) * 30,
             y: i * 16 + j * 16
         };
     }
