@@ -25,6 +25,7 @@ define(["img/Images", "map/Maps", "canvas/context", "map/Tile"], function (image
                 if (this.tile.nextTiles.length > 0) {
                     this.updateTile(_.sample(this.tile.nextTiles));
                     //console.log("Entity " + name + " has moved to " + this.tile);
+                    return true;
                 }
             }
         }

@@ -3,6 +3,7 @@ define(["entity/Entity", "util/Utils", "map/Maps"], function (Entity, utils, map
     function Entities() {
         this.entityList = [];
         this.selectedEntity = undefined;
+        this.modificationListeners = [];
     }
 
     /**
@@ -15,17 +16,26 @@ define(["entity/Entity", "util/Utils", "map/Maps"], function (Entity, utils, map
      */
     Entities.prototype.update = function () {
         // Randomly generate an entity
+        var modified;
         if (Math.random() < 0.01 && this.entityList.length < 10) { // Every 4 seconds en moyenne 
             var name = "entity" + this.entityList.length.toString();
             var entrance = maps.getEntrance();
             var myEntity = new Entity(name, "donor", entrance);
             this.add(myEntity);
+            modified = true;
         }
 
         // Update all entities.
         this.entityList.forEach(function (entity) {
-            entity.update();
+            modified = entity.update() || modified;
         });
+
+        // Update all entities.
+        if (modified) {
+            this.modificationListeners.forEach(function (listener) {
+                listener();
+            });
+        }
     };
 
     /**
@@ -58,6 +68,7 @@ define(["entity/Entity", "util/Utils", "map/Maps"], function (Entity, utils, map
      * Find an entity on the given tile
      */
     Entities.prototype.whoIsOnTile = function (tile) {
+        if (!tile) return;
         var entityToReturn = _.find(this.entityList, function (entity) {
             return entity.tile == tile;
         });

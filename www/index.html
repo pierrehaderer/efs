@@ -33,7 +33,7 @@
         require.config({
             baseUrl: "js"
         });
-        require(["App", "renderer/isometric/MapRenderer"],
+        require(["App", "renderer/isometric/MapRenderer", "renderer/isometric/PeopleRenderer"],
             function(app) {
                 if (!window.cordova) {
                     app.onDeviceReady();

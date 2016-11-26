@@ -1,11 +1,16 @@
 define(["renderer/PixiContext", "renderer/SpriteLoader", "map/Maps"], function (context, spriteLoader, maps) {
 
-    function IsometricRenderer() {
+    function MapRenderer() {
         this.map = new PIXI.Container();
+        this.width = 0;
+        this.height = 0;
         context.stage.addChild(this.map);
     }
 
-    IsometricRenderer.prototype.drawMap = function () {
+    MapRenderer.WIDTH = 30;
+    MapRenderer.HEIGHT = 16;
+
+    MapRenderer.prototype.drawMap = function () {
         var i, j;
         for (i = 0; i < maps.content.length; i++) {
             for (j = 0; j < maps.content[i].length; j++) {
@@ -15,6 +20,8 @@ define(["renderer/PixiContext", "renderer/SpriteLoader", "map/Maps"], function (
                 var sprite;
                 if (c == 'o') {
                     sprite = spriteLoader.sprite("s1");
+                } else if (c == 'e') {
+                    sprite = spriteLoader.sprite("s15");
                 } else {
                     sprite = spriteLoader.sprite("s69");
                 }
@@ -22,37 +29,52 @@ define(["renderer/PixiContext", "renderer/SpriteLoader", "map/Maps"], function (
                 sprite.x = coord.x;
                 sprite.y = coord.y;
                 this.map.addChild(sprite);
+
+                this.width = Math.max(this.width, coord.x + MapRenderer.WIDTH);
+                this.height = Math.max(this.height, coord.y + MapRenderer.HEIGHT);
             }
         }
         this.map.cacheAsBitmap = true;
-        context.stage.addChild(this.map);
+        this.startListen();
+    };
 
-        var man = spriteLoader.people(spriteLoader.Names.Green, spriteLoader.Actions.Stand, spriteLoader.Direction.FrontLeft);
-        var coord = this.coordinates(0, 50);
-        man.x = coord.x;
-        man.y = coord.y;
-        man.scale.x = 4;
-        man.scale.y = 4;
-        context.stage.addChild(man);
-        man = spriteLoader.people(spriteLoader.Names.Green, spriteLoader.Actions.Walk, spriteLoader.Direction.FrontLeft);
-        var coord = this.coordinates(0, 60);
-        man.x = coord.x;
-        man.y = coord.y;
-        man.scale.x = 4;
-        man.scale.y = 4;
-        context.stage.addChild(man);
-    }
+    MapRenderer.prototype.startListen = function () {
+        this.map.hitArea = new PIXI.Rectangle(0, 0, this.width, this.height);
+        this.map.interactive = true;
+        var drag;
+        this.map.on("mousedown", function (mouseData) {
+            drag = mouseData.data.global.clone();
+        });
 
-    IsometricRenderer.prototype.coordinates = function (i, j) {
+        this.map.on("mouseup", function (mouseData) {
+            drag = undefined;
+        });
+
+        this.map.on("mousemove", function (mouseData) {
+            if (drag) {
+                var newPoint = mouseData.data.global.clone();
+                var dx = newPoint.x - drag.x;
+                var dy = newPoint.y - drag.y;
+                context.stage.x = Math.max(context.renderer.width - this.width * context.stage.scale.x, Math.min(0, context.stage.x + dx));
+                context.stage.y = Math.max(context.renderer.height - this.height * context.stage.scale.y, Math.min(0, context.stage.y + dy));
+                drag = newPoint;
+            }
+        });
+    };
+
+    MapRenderer.prototype.coordinates = function (i, j) {
         return {
-            x: i * 30 + (maps.height - j) * 30,
-            y: i * 16 + j * 16
+            x: (i + (maps.height - j - 1)) * MapRenderer.WIDTH,
+            y: (i + j) * MapRenderer.HEIGHT
         };
     }
 
-    var renderer = new IsometricRenderer();
+    var renderer = new MapRenderer();
     spriteLoader.onSpriteLoaded(function () {
         renderer.drawMap();
     });
+    renderer.WIDTH = MapRenderer.WIDTH;
+    renderer.HEIGHT = MapRenderer.HEIGHT;
+
     return renderer;
 });

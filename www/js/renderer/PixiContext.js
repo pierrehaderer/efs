@@ -1,4 +1,5 @@
 define(["jquery"], function ($) {
+    // this object is there to get the size of the display
     $("<div id='sizer' style='z-index:-10;position:fixed;top:0;bottom:0;left:0;right:0;'><div>").appendTo(document.body);
 
     function PixiContext() {
@@ -8,7 +9,7 @@ define(["jquery"], function ($) {
         this.context = undefined;
         this.stage.scale.x = 0.5;
         this.stage.scale.y = 0.5;
-    };
+    }
 
     PixiContext.prototype.refreshRenderer = function () {
         // remove old renderer
