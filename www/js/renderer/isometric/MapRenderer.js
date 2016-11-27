@@ -5,10 +5,10 @@ define(["renderer/PixiContext", "renderer/SpriteLoader", "map/Maps"], function (
         this.width = 0;
         this.height = 0;
         context.stage.addChild(this.map);
-    }
 
-    MapRenderer.WIDTH = 30;
-    MapRenderer.HEIGHT = 16;
+        this.TILE_WIDTH = 30;
+        this.TILE_HEIGHT = 16;
+    }
 
     MapRenderer.prototype.drawMap = function () {
         var i, j;
@@ -30,8 +30,8 @@ define(["renderer/PixiContext", "renderer/SpriteLoader", "map/Maps"], function (
                 sprite.y = coord.y;
                 this.map.addChild(sprite);
 
-                this.width = Math.max(this.width, coord.x + MapRenderer.WIDTH);
-                this.height = Math.max(this.height, coord.y + MapRenderer.HEIGHT);
+                this.width = Math.max(this.width, coord.x + this.TILE_WIDTH);
+                this.height = Math.max(this.height, coord.y + this.TILE_HEIGHT);
             }
         }
         this.map.cacheAsBitmap = true;
@@ -64,8 +64,8 @@ define(["renderer/PixiContext", "renderer/SpriteLoader", "map/Maps"], function (
 
     MapRenderer.prototype.coordinates = function (i, j) {
         return {
-            x: (i + (maps.height - j - 1)) * MapRenderer.WIDTH,
-            y: (i + j) * MapRenderer.HEIGHT
+            x: (i + (maps.height - j - 1)) * this.TILE_WIDTH,
+            y: (i + j) * this.TILE_HEIGHT
         };
     }
 
@@ -73,8 +73,6 @@ define(["renderer/PixiContext", "renderer/SpriteLoader", "map/Maps"], function (
     spriteLoader.onSpriteLoaded(function () {
         renderer.drawMap();
     });
-    renderer.WIDTH = MapRenderer.WIDTH;
-    renderer.HEIGHT = MapRenderer.HEIGHT;
 
     return renderer;
 });

@@ -10,8 +10,11 @@ define(["renderer/PixiContext", "renderer/SpriteLoader", "entity/Entities", "map
         });
     }
 
-    PeopleRenderer.WIDTH = 32;
-    PeopleRenderer.HEIGHT = 48;
+    PeopleRenderer.HUMAN_WIDTH = 32;
+    PeopleRenderer.HUMAN_HEIGHT = 48;
+
+    PeopleRenderer.FOOT_X = 32;
+    PeopleRenderer.FOOT_Y = 20;
 
     PeopleRenderer.prototype.loop = function () {
         for (var i = 0; i < entities.entityList.length; i++) {
@@ -40,8 +43,8 @@ define(["renderer/PixiContext", "renderer/SpriteLoader", "entity/Entities", "map
     PeopleRenderer.prototype.coordinates = function (i, j) {
         var c = mapRenderer.coordinates(i, j);
         return {
-            x: c.x + mapRenderer.WIDTH / 2 - PeopleRenderer.WIDTH,
-            y: c.y + mapRenderer.HEIGHT / 2 - PeopleRenderer.HEIGHT
+            x: c.x + mapRenderer.TILE_WIDTH / 2 - PeopleRenderer.HUMAN_WIDTH + PeopleRenderer.FOOT_X,
+            y: c.y + mapRenderer.TILE_HEIGHT / 2 - PeopleRenderer.HUMAN_HEIGHT + PeopleRenderer.FOOT_Y
         };
     }
 
