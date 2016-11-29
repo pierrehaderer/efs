@@ -28,9 +28,9 @@ define(["Config", "map/Maps", "touch/UserInterfaces", "entity/Entities", "util/U
      * Initilize this
      */
     Touches.prototype.initialize = function() {
-        document.addEventListener("mousemove", this.onmousemove);
-        document.addEventListener("mousedown", this.onmousedown);
-        document.addEventListener("mouseup", this.onmouseup);
+        document.getElementById("ctx").addEventListener("mousemove", this.onmousemove);
+        document.getElementById("ctx").addEventListener("mousedown", this.onmousedown);
+        document.getElementById("ctx").addEventListener("mouseup", this.onmouseup);
     };
 
     // To be able to use the keyword "this" in the submethods ...

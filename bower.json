@@ -2,9 +2,11 @@
   "name": "efs",
   "dependencies": {
     "underscore": "^1.8.3",
-    "requirejs": "^2.3.2"
+    "requirejs": "^2.3.2",
+    "jquery": "^3.1.1"
   },
   "devDependencies": {
-    "jquery": "^3.1.1"
+    "jquery": "^3.1.1",
+    "pixi.js": "^4.2.2"
   }
 }
