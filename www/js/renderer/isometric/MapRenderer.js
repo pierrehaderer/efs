@@ -71,14 +71,21 @@ define(["renderer/PixiContext", "renderer/Sprites", "map/Maps"], function (PixiC
         this.map.on("mousedown", function (mouseData) {
             drag = mouseData.data.global.clone();
         });
+        this.map.on("touchstart", function (touchData) {
+            drag = touchData.data.global.clone();
+        });
 
         /// to stop dragging
         this.map.on("mouseup", function (mouseData) {
             drag = undefined;
         });
+        this.map.on("touchend", function (touchData) {
+            drag = undefined;
+        });
 
+        
         /// to move the displayed area by changin the main stage x and y properties that are the offset
-        this.map.on("mousemove", function (mouseData) {
+        var move = function (mouseData) {
             if (drag) {
                 var newPoint = mouseData.data.global.clone();
                 var dx = newPoint.x - drag.x;
@@ -88,7 +95,9 @@ define(["renderer/PixiContext", "renderer/Sprites", "map/Maps"], function (PixiC
                 context.stage.y = Math.max(context.renderer.height - this.height * context.stage.scale.y, Math.min(0, context.stage.y + dy));
                 drag = newPoint;
             }
-        });
+        };
+        this.map.on("mousemove", move);
+        this.map.on("touchmove", move);
     };
 
     /**
