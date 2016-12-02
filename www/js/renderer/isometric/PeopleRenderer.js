@@ -119,7 +119,6 @@ define(["renderer/PixiContext", "renderer/Sprites", "entity/Entities", "map/Maps
     PeopleRenderer.walkCoordinates = function (from, to, percent) {
         var fromCoord = PeopleRenderer.coordinates(from);
         var toCoord = PeopleRenderer.coordinates(to);
-        console.error("Percent " + percent);
         return {
             x: fromCoord.x * (1-percent) + toCoord.x * percent,
             y: fromCoord.y * (1-percent) + toCoord.y * percent

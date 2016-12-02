@@ -11,10 +11,20 @@ define(["jquery"], function ($) {
      * - the PIXI renderer that will rendrer the stage
      */
     function PixiContext() {
+        var c = document.createElement('canvas');
+        var gl = c.getContext("webgl");
+        if (gl) {
+            this.maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE) / 2;
+        } else {
+            this.maxTextureSize = 10000000;
+        }
+        
         this.stage = new PIXI.Container();
         this.renderer = undefined;
         this.stage.scale.x = 1;
         this.stage.scale.y = 1;
+        this.width = 0;
+        this.height = 0;
         /// list of object that need to update on each frame before the graphic render
         this.toUpdateList = [];
     }
@@ -29,11 +39,11 @@ define(["jquery"], function ($) {
             document.body.removeChild(this.renderer.view);
         }
         // get size from sizer
-        var width = $("#sizer").outerWidth();
-        var height = $("#sizer").outerHeight();
+        this.width = $("#sizer").outerWidth();
+        this.height = $("#sizer").outerHeight();
         
         //Create the renderer
-        this.renderer = PIXI.autoDetectRenderer(width, height);
+        this.renderer = new PIXI.autoDetectRenderer(this.width, this.height);
         this.renderer.view.id = "pixi-renderer";
         
         //Add the canvas to the HTML document

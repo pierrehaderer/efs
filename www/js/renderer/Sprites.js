@@ -4,10 +4,10 @@ define([], function () {
      */ 
     function Sprites() {
         var i;
-        for (i = 1; i <= 80; i++) {
-            PIXI.loader.add("s" + i, "img/map/tileset/s" + i + ".png");
-        }
-
+        //load tile spritesheet, all sprites are descibed in people.json
+        this.tilesJson = "img/map/tileset/tileset.json";
+        PIXI.loader.add(this.tilesJson);
+        
         //load perso spritesheet, all sprites are descibed in people.json
         this.peopleJson = "img/entity/people.json";
         PIXI.loader.add(this.peopleJson);
@@ -20,10 +20,10 @@ define([], function () {
         PIXI.loader.load(callback);
     };
     /**
-     * this will instanciate a sprite based on its name ("s1" for a sprite of s1.png)
+     * this will instanciate a tile sprite based on its name ("s1" for a sprite of s1.png)
      */ 
-    Sprites.prototype.sprite = function (name) {
-        return new PIXI.Sprite(PIXI.loader.resources[name].texture);
+    Sprites.prototype.tile = function (name) {
+        return new PIXI.Sprite(PIXI.loader.resources[this.tilesJson].textures[name]);
     };
     /**
      * this will create a person with 

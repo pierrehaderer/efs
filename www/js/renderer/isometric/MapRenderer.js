@@ -24,8 +24,12 @@ define(["renderer/PixiContext", "renderer/Sprites", "map/Maps"], function (PixiC
 
      /**
      *  Main function, draw the map, is called only once now as the map doesn't change
+     * We needed to cut the map into pieces, as opengl can only afford a certain size for texture
+     * If not cuted, cacheAsBitmap would have failed
      */
     MapRenderer.prototype.drawMap = function () {
+        var subMaps = {};
+        
         var i, j;
         for (i = 0; i < maps.content.length; i++) {
             for (j = 0; j < maps.content[i].length; j++) {
@@ -34,24 +38,45 @@ define(["renderer/PixiContext", "renderer/Sprites", "map/Maps"], function (PixiC
                 var c = tile.char;
                 var sprite;
                 if (c == 'o') {
-                    sprite = sprites.sprite("s1");
+                    sprite = sprites.tile("s1");
                 } else if (c == 'e') {
-                    sprite = sprites.sprite("s15");
+                    sprite = sprites.tile("s15");
                 } else {
-                    sprite = sprites.sprite("s69");
+                    sprite = sprites.tile("s69");
                 }
 
                 sprite.x = coord.x;
                 sprite.y = coord.y;
-                this.map.addChild(sprite);
+                
+                var submapCoord = {
+                    i : Math.floor(sprite.x/context.maxTextureSize),
+                    j : Math.floor(sprite.y/context.maxTextureSize)
+                };
+                if (!subMaps[submapCoord.i]) {subMaps[submapCoord.i] = {};}
+                if (!subMaps[submapCoord.i][submapCoord.j]) {
+                    subMaps[submapCoord.i][submapCoord.j] = new PIXI.Container();
+                    /// this create a cached map to display faster the complete map
+                    subMaps[submapCoord.i][submapCoord.j].cacheAsBitmap = true;
+                    this.map.addChild(subMaps[submapCoord.i][submapCoord.j]);
+                    subMaps[submapCoord.i][submapCoord.j].x = submapCoord.i * context.maxTextureSize;
+                    subMaps[submapCoord.i][submapCoord.j].y = submapCoord.j * context.maxTextureSize;
+                }
+                
+                sprite.x = sprite.x - submapCoord.i * context.maxTextureSize;
+                sprite.y = sprite.y - submapCoord.j * context.maxTextureSize;
+                
+                subMaps[submapCoord.i][submapCoord.j].addChild(sprite);
 
                 this.width = Math.max(this.width, coord.x + MapRenderer.TILE_WIDTH);
                 this.height = Math.max(this.height, coord.y + MapRenderer.TILE_HEIGHT);
             }
         }
-        /// this create a cached map to display faster the complete map
-        this.map.cacheAsBitmap = true;
         
+        var entrance = maps.getEntrance();
+        var coord = MapRenderer.coordinates(entrance.x, entrance.y);
+        context.stage.x = -coord.x + context.width / 2;
+        context.stage.y = -coord.y + context.height - 2*MapRenderer.TILE_HEIGHT;
+
         /// start listening to mouseevents
         this.startListen();
     };
@@ -91,7 +116,6 @@ define(["renderer/PixiContext", "renderer/Sprites", "map/Maps"], function (PixiC
                 var dx = newPoint.x - drag.x;
                 var dy = newPoint.y - drag.y;
                 context.stage.x = Math.max(context.renderer.width - this.width * context.stage.scale.x, Math.min(0, context.stage.x + dx));
-                context.stage.y = Math.max(context.renderer.height - this.height * context.stage.scale.y, Math.min(0, context.stage.y + dy));
                 context.stage.y = Math.max(context.renderer.height - this.height * context.stage.scale.y, Math.min(0, context.stage.y + dy));
                 drag = newPoint;
             }
