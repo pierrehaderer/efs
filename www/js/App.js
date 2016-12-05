@@ -54,5 +54,6 @@ define(["canvas/context", "touch/UserInterfaces", "map/Maps", "map/map1", "img/I
     };
 
     var app = new App();
+    document.addEventListener("deviceready", function() { app.onDeviceReady();}, false);
     return app;
 });
